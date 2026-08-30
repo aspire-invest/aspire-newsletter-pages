@@ -1,0 +1,862 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>מבט אלטרנטיבי · Aspire Investments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap">
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --brand:#72BCFF; --brand-ink:#1668B8; --wash:#EAF4FF;
+    --navy:#1F2233; --green:#AEFAA4;
+    --bg:#F4F7FB; --surface:#FFFFFF;
+    --ink:#1F2233; --ink-2:#565C70; --ink-3:#868DA0; --rule:#DCE4EF;
+    --card-edge:#CBD8E8; --wash-edge:#BBD8F5;
+    --font-he:"Assistant","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-la:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --measure:62ch; --gutter:clamp(22px,6vw,56px); --inset:clamp(8px,2vw,14px);
+  }
+  body{ background:var(--bg); color:var(--ink); font-family:var(--font-he);
+        font-size:17px; line-height:1.75; -webkit-font-smoothing:antialiased; }
+  .page{ max-width:780px; margin:0 auto; background:var(--surface); text-align:right; overflow:hidden; }
+  .pad{ padding-inline:var(--gutter); }
+  img{ display:block; max-width:100%; }
+
+  /* ---------- Masthead ---------- */
+  .masthead{ display:flex; align-items:center; justify-content:space-between; gap:20px; padding-block:30px 24px; }
+  .logo{ width:148px; }
+  .logo svg{ width:100%; height:auto; display:block; }
+  .logo svg path{ fill:var(--brand); }
+  .logo .sub{ display:block; font-family:var(--font-la); font-weight:400; font-size:13px;
+              line-height:1; text-align:left; color:var(--ink); margin-top:4px; padding-right:3px; direction:ltr; }
+  /* ---------- Hero ---------- */
+  .hero img{ width:100%; height:auto; }
+  .hero-strip{ display:flex; height:7px; }
+  .hero-strip span{ flex:1; }
+  .hero-strip span:nth-child(1){ background:var(--brand); flex:6; }
+  .hero-strip span:nth-child(2){ background:var(--navy); flex:3; }
+  .hero-strip span:nth-child(3){ background:var(--green); flex:1; }
+
+  /* ---------- Issue header ---------- */
+  .issue{ padding-block:34px 32px; }
+  .kicker{ font-size:12px; font-weight:700; letter-spacing:.05em; color:var(--brand-ink); }
+  .kicker span{ color:var(--ink-3); font-weight:500; }
+  h1{ font-size:clamp(2.15rem,7vw,3.1rem); line-height:1.05; letter-spacing:-.02em; margin-top:12px; text-wrap:balance; }
+  h1 .light{ display:block; font-weight:200; color:var(--ink-2); }
+  h1 .bold{ display:block; font-weight:700; color:var(--brand-ink); }
+  .standfirst{ margin-top:18px; max-width:var(--measure); margin-inline-end:auto;
+               color:var(--ink-2); font-size:1.06rem; font-weight:300; }
+
+  /* ---------- Category filter ---------- */
+  /* built by script from the cards themselves — stays invisible if the script never runs */
+  .filters{ display:flex; flex-wrap:wrap; gap:8px; padding:0 var(--gutter) 30px; }
+  .filters:empty{ display:none; }
+  .filters button{ font-family:var(--font-he); font-size:13px; font-weight:600; color:var(--ink-2);
+                   background:transparent; border:1px solid var(--rule); border-radius:999px;
+                   padding:6px 13px; cursor:pointer; line-height:1.45;
+                   display:inline-flex; align-items:center; gap:7px; transition:.15s ease; }
+  .filters button span{ unicode-bidi:isolate; }
+  .filters button i{ font-style:normal; font-size:11px; font-weight:700; color:var(--ink-3);
+                     font-variant-numeric:tabular-nums; }
+  .filters button:hover{ border-color:var(--brand); color:var(--ink); }
+  .filters button[aria-pressed="true"]{ background:var(--navy); border-color:var(--navy); color:#FFFFFF; }
+  .filters button[aria-pressed="true"] i{ color:var(--green); }
+  .filters button:focus-visible{ outline:2px solid var(--brand-ink); outline-offset:2px; }
+
+  /* ---------- Stories ---------- */
+  /* Each story is its own rounded card. The cards are inset from the page edge and the body
+     padding gives that inset back, so story text still lines up with the masthead above it. */
+  .stories{ display:flex; flex-direction:column; gap:12px;
+            padding:0 var(--inset) var(--inset); }
+  .story{ background:var(--surface); border:2px solid var(--card-edge);
+          border-radius:16px; overflow:hidden; }
+  .story[hidden]{ display:none; }
+  /* a category with no stories this week still emits one blank card — drop it */
+  .story:not([data-cat]),
+  .story[data-cat=""]{ display:none; }
+  .story-body{ padding:30px calc(var(--gutter) - var(--inset)) 34px; }
+  .tag{ display:inline-block; font-family:var(--font-la); font-size:10.5px; font-weight:700;
+        letter-spacing:.13em; text-transform:uppercase; background:var(--brand); color:var(--navy);
+        padding:4px 9px 3px; border-radius:4px; direction:ltr; }
+  .story h2{ font-size:clamp(1.35rem,3.6vw,1.72rem); font-weight:600; line-height:1.25;
+             letter-spacing:-.015em; margin-top:12px; text-wrap:balance; }
+  .story p{ margin-top:14px; max-width:var(--measure); margin-inline-end:auto; color:var(--ink-2); }
+
+  /* Stories 3,5,7,9... are tinted and carry a photo, exactly as in the original issue.
+     Two selectors for each rule: the nth-child one is the no-script baseline, the class one is
+     what the filter script assigns so the rhythm survives when cards are hidden. */
+  :is(.stories:not(.js) .story:nth-child(2n+3), .story.alt){ background:var(--wash); border-color:var(--wash-edge); }
+  :is(.stories:not(.js) .story:nth-child(2n+3), .story.alt)::before{
+    content:""; display:block;
+    aspect-ratio:1200/545;
+    background-size:cover; background-position:center;
+  }
+  :is(.stories:not(.js) .story:nth-child(6n+3), .story.pic-a)::before{ background-image:url("../assets/img-2.jpg"); }
+  :is(.stories:not(.js) .story:nth-child(6n+5), .story.pic-b)::before{ background-image:url("../assets/img-3.jpg"); }
+  :is(.stories:not(.js) .story:nth-child(6n+7), .story.pic-c)::before{ background-image:url("../assets/img-4.jpg"); }
+
+  /* first story = the lead, on brand blue */
+  :is(.stories:not(.js) .story:first-child, .story.lead){ background:var(--brand); border-color:transparent; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .story-body{ padding-block:40px 44px; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .tag{ background:var(--navy); color:#FFFFFF; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) h2{ color:var(--navy); font-weight:700; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) p{ color:#16283B; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .source{ color:#21384F; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .source a{ color:var(--navy); border-bottom-color:rgba(31,34,51,.45); }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .dot{ color:rgba(31,34,51,.35); }
+
+  /* ---------- Takeaway ---------- */
+  .takeaway{ margin-top:22px; background:var(--navy); color:#E9EDF5; padding:16px 18px;
+             font-size:.97rem; font-weight:300; line-height:1.65; border-radius:10px;
+             max-width:var(--measure); margin-inline-end:auto; }
+  .takeaway b{ display:block; font-family:var(--font-he); font-size:11.5px; font-weight:700;
+               letter-spacing:.12em; color:var(--green); margin-bottom:5px; }
+  /* an article with no takeaway hides the whole box; same for an empty meta item */
+  .takeaway:has(span:empty){ display:none; }
+  .source .meta:empty{ display:none; }
+  .source .meta + .meta:not(:empty)::before{ content:"·"; margin-inline-end:10px; color:var(--rule); }
+
+  /* ---------- Source line ---------- */
+  .source{ margin-top:18px; font-size:.85rem; color:var(--ink-3);
+           display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; }
+  .source .meta{ direction:ltr; }
+  .source a{ color:var(--brand-ink); text-decoration:none; font-weight:600;
+             border-bottom:1px solid rgba(22,104,184,.35); }
+  .source a:hover{ border-bottom-color:currentColor; }
+  .dot{ color:var(--rule); }
+
+  /* ---------- Closing panel ---------- */
+  .closer{ position:relative; background:var(--navy); min-height:190px; }
+  .closer img{ width:100%; height:auto; opacity:.5; }
+  .closer .veil{ position:absolute; inset:0;
+                 background:linear-gradient(to left, rgba(31,34,51,.96) 34%, rgba(31,34,51,.55) 100%);
+                 display:flex; align-items:center; justify-content:flex-start; padding-inline:var(--gutter); }
+  .closer .line{ direction:ltr; text-align:right; font-family:var(--font-la);
+                 font-size:clamp(1.7rem,5.5vw,2.5rem); line-height:1.08; letter-spacing:-.02em; }
+  .closer .line .a{ display:block; font-weight:300; color:#FFFFFF; }
+  .closer .line .b{ display:block; font-weight:700; color:var(--green); }
+
+  .signoff{ padding-block:28px 30px; }
+  .signoff p{ font-size:.95rem; color:var(--ink-2); font-weight:300;
+              max-width:var(--measure); margin-inline-end:auto; }
+
+  .footer{ background:var(--brand); color:var(--navy); padding-block:18px;
+           font-family:var(--font-la); font-size:13px; }
+  .footer-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; }
+  .footer span,.footer a{ direction:ltr; }
+  .footer a{ color:var(--navy); text-decoration:none; font-weight:500; }
+  .footer .sep{ opacity:.4; }
+
+  .legal{ padding-block:18px 26px; font-size:.78rem; line-height:1.65;
+          color:var(--ink-3); font-weight:300; }
+
+  @media (max-width:560px){
+    body{ font-size:16.5px; }
+    .masthead{ padding-block:24px 18px; }
+    .closer .veil{ background:linear-gradient(to left, rgba(31,34,51,.94) 55%, rgba(31,34,51,.7) 100%); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page" dir="rtl" lang="he">
+
+  <header class="masthead pad">
+    <div class="logo">
+      <svg viewBox="418 330 1082 272" role="img" aria-label="Aspire Investments">
+        <path d="M629.42,336.54l62.51,258.08h-76.49l-23.15-98.78-90.53,98.78h-77.97l69.91-258.08h135.72ZM561.14,357.09l-38.64,150.41c20.08-20.27,39.28-42.84,58.64-63.83l-20-86.58Z"/>
+        <path d="M1493.07,480.84c.54,6.32.36,15.77,0,22.19,0,.11-.79,10.57-1.65,14.79h-116.8c7.89,31.37,63.37,30.38,74.43,1.65l40.66,39.15c-15.67,20.93-40.71,34.06-66.94,35.68-52.62,3.25-98.96-17.04-108.78-73.01-13.67-77.92,45.19-134.26,122.32-112.36,32.12,9.12,53.95,39.01,56.76,71.92ZM1433.02,482.48c-1.62-9.91-3.8-19.92-13.69-24.54-8.52-3.98-19.74-4.01-28.47-.74-11.05,4.14-16.57,13.75-17.06,25.28h59.22Z"/>
+        <path d="M843.85,428.41l-36.62,39.96c-6.27-2.64-10.35-5.21-16.79-7.53-10.34-3.74-30.6-8.98-40.97-5.98-10.9,3.15-6.13,10.41,1.69,14,32.07,14.73,94.75,16.13,98.68,62.49,3.28,38.61-28.54,60.43-63.74,62.86-27.51,1.9-56.78-2.86-82.29-12.97l38.85-42.39c10.8,2.72,34.9,10.43,44.65,3.97,7.9-5.24-1.36-10.49-6.33-12.51-31.92-12.97-94.03-13.63-98.08-58.98-5.63-62.94,64.84-72.7,112.02-63.44,17.91,3.51,33.28,11.61,48.94,20.54Z"/>
+        <path d="M1222.46,463.06l8.08-22.75c8.39-17.22,21.48-31.19,41.09-34.56,18.72-3.22,45.09,2.93,51.42,23.15l-48.96,53.42s-20.33-34.35-37.58-21.25c-6.73,5.11-14.05,19.55-14.05,27.87v105.62h-67.45v-185.75h67.45v54.25Z"/>
+        <path d="M1067,408.87h66.62v185.75h-66.62z"/>
+        <path d="M1067,335.7h66.62v49.32h-66.62z"/>
+        <path d="M989.78,405.08c-32.55,0-53.28,25.63-60.87,61.65v-9.87l-.09.28v-48.49h-66.62v250.69h66.62v-115.89l.09.3v-6.67c6.71,33.82,24.55,57.55,60.87,57.55,45.3,0,65.9-42.43,65.9-94.77s-20.42-94.77-65.9-94.77ZM962.19,541.92c-21.59,0-28.47-18.88-28.47-42.12s9.9-42.02,28.47-42.02c20.19,0,29.25,18.84,29.25,42.07s-9.15,42.07-29.25,42.07Z"/>
+      </svg>
+      <span class="sub">Investments</span>
+    </div>
+  </header>
+
+  <div class="hero">
+    <img src="../assets/img-1.jpg" alt="גרם מדרגות מעוגל בבניין מודרני">
+    <div class="hero-strip" aria-hidden="true"><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="issue pad">
+    <div class="kicker"><b>מבט אלטרנטיבי</b> <span>· גיליון 2 · 30/08/2026 · 5 דקות קריאה</span></div>
+    <h1>
+      <span class="light">השוק הפרטי</span>
+      <span class="bold">השבוע.</span>
+    </h1>
+    <p class="standfirst">השבוע אנו עדים לביקוש הגובר להשקעות פרטיות, במיוחד בתחום האשראי הפרטי, מה שמצביע על אמון המשקיעים בשוק. עם זאת, ישנם סימנים לירידה בפעילות בשוק ההון, מה שמעורר שאלות לגבי יציבות המגזר. ארבע כתבות שנבחרו מתוך סקירת השוק השבועית ממקורות השוק.</p>
+  </div>
+
+  <nav class="filters" aria-label="סינון לפי קטגוריה"></nav>
+
+  <main class="stories">
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>StepStone גייסה 1.7 מיליארד דולר לקרן השנייה שלה לתשתיות</h2>
+    <p>StepStone Group גייסה 1.7 מיליארד דולר עבור הקרן הראשונה שלה לתשתיות שנועדה לעסקאות סקנדרי, כאשר 50% מההון כבר הושקע. הקרן החדשה תומכת באסטרטגיה שהנחתה את המנהל עד כה דרך הפלטפורמה הרחבה יותר שלו לתשתיות, ולא באמצעות כלי סגור עצמאי. מדובר בצעד משמעותי להרחבת ההשקעות בתשתיות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס מצביע על ביקוש גובר להשקעות בתשתיות סקנדרי, מה שמצביע על פוטנציאל צמיחה בתחום.</span></div>
+    <div class="source">
+      <span class="meta">altassets.net · Mike Didymus</span>
+      <a href="https://www.altassets.net/private-equity-news/by-region/north-america-by-region/united-states-north-america-by-region/stepstone-raises-1-7bn-for-first-dedicated-infrastructure-secondaries-fund-already-50-deployed.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>NSP Capital שואפת לגייס 150 מיליון דולר לקרן הספונסרים העצמאית הראשונה שלה</h2>
+    <p>NSP Capital הצליחה לגייס כמעט שלושה רבעים מהמטרה שלה, כאשר היא סגרה 110 מיליון דולר החודש. הקרן מיועדת לספונסרים עצמאיים, והגיוס הנוכחי מהווה צעד משמעותי לקראת הגעה ליעד המלא של 150 מיליון דולר. המידע הגיע ממקורות שדיווחו ל-Buyouts.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס הנוכחי מצביע על ביקוש גובר להשקעות בספונסרים עצמאיים בשוק ההשקעות הפרטיות.</span></div>
+    <div class="source">
+      <span class="meta">buyoutsinsider.com · Kirk Falconer</span>
+      <a href="https://www.buyoutsinsider.com/nsp-capital-targets-150m-for-debut-independent-sponsors-fund/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>הביקוש להלוואות פרטיות נשאר חזק למרות אופי האשראי הזהיר</h2>
+    <p>הביקוש להלוואות פרטיות נותר 'חזק' במחצית הראשונה של 2026, על פי דיווח של CVC Credit. למרות רעש סביב הנכס, היסודות נותרו יציבים, כאשר גיוס ההון עמד על יותר מ-208 מיליארד דולר. הלוואות ישירות בכירות היוו 60% מההון שנגייס, עלייה חדה מ-42% ב-2025. עם זאת, המגזר הטכנולוגי חווה ירידה בפעילות, כאשר חלקו ירד מ-29% ל-22%. CVC צופה שפעילות העסקאות תשתפר ככל שהשוק יתייצב.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הביקוש להלוואות פרטיות מצביע על יציבות בשוק, אך יש לעקוב אחרי השפעת השינויים במגזר הטכנולוגי.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/28/private-credit-appetite-stays-strong-despite-cautious-underwriting/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>ג'נה משיקה קרן אשראי פרטית לשוק הסיטונאי</h2>
+    <p>ג'נה, יועצת השקעות אוסטרלית, השיקה קרן אשראי פרטית עבור משקיעים סיטונאיים, עם נכסים מנוהלים שכבר עברו את ה-270 מיליון דולר אוסטרלי. הקרן תאפשר גישה להשקעות באשראי פרטי גלובלי, תוך מיקוד בהלוואות ישירות לחברות בשוק הבינוני בארה"ב ובאירופה. ג'נה בחרה במנהלי קרנות פרטיות אירופיים ואמריקאיים כדי להבטיח שליטה רבה יותר על בניית התיק והנחיות ההשקעה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההשקה של קרן זו מצביעה על הביקוש הגובר להשקעות באשראי פרטי בקרב משקיעים מוסדיים.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/28/jana-launches-private-credit-trust-for-wholesale-market/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>כוונות משקיעים: קרן הפנסיה הציבורית של טקסס ERS קובעת תוכנית השקעה בהון פרטי לשנת 2027</h2>
+    <p>קרן הפנסיה הציבורית של טקסס (ERS) מתכננת להשקיע עד 1 מיליארד דולר בהתחייבויות חדשות בהון פרטי במהלך שנת הכספים 2027. המהלך נועד להגדיל את ההשקעות של הקרן בהון פרטי, תוך שמירה על פיזור סיכונים והשגת תשואות טובות יותר עבור המשקיעים. ההשקעה תתמקד במגוון תחומים, במטרה למקסם את התשואות לאורך זמן.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>התחייבות זו מציינת את הרצון של ERS להרחיב את השקעותיה בהון פרטי, מה שעשוי להשפיע על שוק ההשקעות.</span></div>
+    <div class="source">
+      <span class="meta">privateequityinternational.com · Declan O'Connor</span>
+      <a href="https://www.privateequityinternational.com/investor-intentions-ers-texas-sets-private-equity-pacing-plan-for-2027/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>LGT Capital Partners חורגת מהמטרה עם סגירת קרן רכישות קטנות אירופאית של 850 מיליון אירו</h2>
+    <p>LGT Capital Partners גייסה 850 מיליון אירו עבור הקרן השביעית שלה לרכישות קטנות באירופה, חורגת מהמטרה המקורית של 800 מיליון אירו. הקרן החדשה תתמקד בהשקעות בחברות קטנות ובינוניות ברחבי אירופה, עם דגש על יצירת ערך באמצעות שיפורים תפעוליים וצמיחה אורגנית.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס של LGT Capital Partners מצביע על ביקוש חזק להשקעות ברכישות קטנות באירופה.</span></div>
+    <div class="source">
+      <span class="meta">altassets.net · Mike Didymus</span>
+      <a href="https://www.altassets.net/private-equity-news/by-region/europe-by-region/western-europe-europe-by-region/switzerland-western-europe-europe-by-region/lgt-capital-partners-beats-target-with-e850m-european-small-buyout-fund-close.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>GenNx360 סוגרת סגירה של 865 מיליון דולר לקרן IV לאחר מימושים של 1.3 מיליארד דולר בשנה האחרונה</h2>
+    <p>GenNx360 Capital Partners הצליחה כמעט להכפיל את גודלה של הקרן הפרטית המובילה שלה עם סגירה של 865 מיליון דולר לקרן IV. זהו הישג משמעותי, שכן הקרן עברה את היעד המקורי שלה, לאחר שהחזירה יותר מ-1.3 מיליארד דולר למשקיעים במהלך 12 החודשים האחרונים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הסגירה המוצלחת מצביעה על אמון המשקיעים ביכולות הקרן ובביצועיה בשוק.</span></div>
+    <div class="source">
+      <span class="meta">altassets.net · Mike Didymus</span>
+      <a href="https://www.altassets.net/private-equity-news/by-region/north-america-by-region/united-states-north-america-by-region/gennx360-scores-865m-fund-iv-close-after-1-3bn-of-realisations-in-past-year.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>קרן קרדיט של Crescent מגייסת 232 מיליון דולר עבור קרן CLO השנייה שלה</h2>
+    <p>Crescent Capital גייסה 232 מיליון דולר בסגירה הסופית של קרן ההון השנייה שלה, המיועדת להלוואות מגובות בנכסים (CLO). הקרן החדשה הכפילה את גודלה לעומת קודמתה, שהושקה ב-2018 עם 103 מיליון דולר. הקרן תשקיע במעמדות שליטה ב-CLOs של Crescent, ותשקול גם השקעות בחובות של כלי השקעה אחרים. נילש מנדרה, מנהל הקרן, ציין כי הסגירה משקפת את ההתפתחות האסטרטגית של החברה ואת האמון הגובר מצד המשקיעים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס מצביע על אמון גובר של משקיעים בשוק ה-CLO, למרות התחרות הגוברת.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/28/crescent-lands-232m-for-second-clo-equity-fund/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>Permanent Capital Ventures מגייסת 200 מיליון דולר לקרן השנייה שלה, שנתיים לאחר ההשקה</h2>
+    <p>Permanent Capital Ventures גייסה 200 מיליון דולר לקרן השנייה שלה, הממוקדת בהשקעות ב-AI יישומי בשלב סדרה A. הקרן החדשה מהווה הרחבה מהירה של פלטפורמת ההשקעות שהחלה לפעול רק בתחילת 2024. גיוס זה מצביע על האמון הגובר בהזדמנויות בשוק ה-AI, ומסמן את המחויבות של החברה לתמוך בחברות טכנולוגיה מתפתחות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס מצביע על אמון גובר בהשקעות בתחום ה-AI, מה שמצביע על הזדמנויות משמעותיות בשוק.</span></div>
+    <div class="source">
+      <span class="meta">altassets.net · Mike Didymus</span>
+      <a href="https://www.altassets.net/private-equity-news/by-region/north-america-by-region/united-states-north-america-by-region/permanent-capital-ventures-scales-to-200m-fund-ii-two-years-after-launch.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>FGV קפיטל סגרה קרן שנייה בהיקף של 35 מיליון דולר מעל היעד של 25 מיליון דולר</h2>
+    <p>FGV קפיטל סגרה קרן שנייה בהיקף של 35 מיליון דולר ב-25 באוגוסט, מעל היעד המקורי של 25 מיליון דולר, כולל הון משותף. בין המשקיעים המוזכרים נמצאים קבוצת הביטוח Reinsurance Group of America, MassMutual, בנק אמריקה ו-Stellar Development Foundation. הקרן תתמוך בחברות בשלב מוקדם בתחום הטכנולוגיה הפיננסית, עם תכנון להשקיע בין 1 ל-1.5 מיליון דולר ב-25 חברות לפחות במהלך השנתיים הקרובות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הסגירה המוצלחת של הקרן מצביעה על עניין גובר בהשקעות בתחום הטכנולוגיה הפיננסית.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net · HedgeCo Admin</span>
+      <a href="https://hedgeco.net/news/08/2026/fgv-capital-closed-an-oversubscribed-35-million-fund-ii-above-a-25-million-target.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>אליס גייסה 140 מיליון דולר בהובלת אפקס דיגיטל, והביאה את סך ההון ל-280 מיליון דולר</h2>
+    <p>אליס, חברת AI לביטחון ואבטחה מניו יורק ותל אביב, גייסה 140 מיליון דולר בסבב גיוס בהובלת קרנות אפקס דיגיטל, מה שהביא את סך ההשקעות שלה ל-280 מיליון דולר. בין המשתתפים בגיוס היו סמסונג, סנטינל וואן, מאג' אינבסט, מורטק וביטוח פניקס, לצד משקיעים קיימים כמו רזולוט ונצ'רס, גרוב ונצ'רס ו-NFX. אפקס דיגיטל תצטרף לדירקטוריון של אליס, אשר פועלת עם שמונה מתוך עשרת המעבדות המובילות בתחום ה-AI.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס הנוכחי מדגיש את האמון של המשקיעים בפוטנציאל הצמיחה של אליס בתחום אבטחת ה-AI.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net · HedgeCo Admin</span>
+      <a href="https://hedgeco.net/news/08/2026/alice-raised-140-million-led-by-apax-digital-taking-total-capital-to-280-million.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>JANA פתחה את קרן האשראי הפרטי שלה למשקיעים מוסדיים בסכום של 270 מיליון דולר</h2>
+    <p>JANA Investment Advisers השיקה את קרן האשראי הפרטי שלה, JANA Private Credit Trust, עבור משקיעים מוסדיים, עם 270 מיליון דולר כבר בניהול. הקרן מתמקדת בהלוואות ישירות לחברות בשוק הבינוני בארה"ב ובאירופה. JANA מינתה את Arcmont ו-Jefferies Credit Partners למנדטים מותאמים. המבנה נועד לספק חשיפה מיידית לשוק תוך הפחתת ההשפעה של כסף לא מושקע, מה שמקנה יתרון לתשואות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההשקה של הקרן מסמנת הזדמנות חדשה למשקיעים מוסדיים בתחום האשראי הפרטי.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net · HedgeCo Admin</span>
+      <a href="https://hedgeco.net/news/08/2026/jana-opened-its-private-credit-trust-to-wholesale-investors-at-270-million.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>ברידג' משיקה קרן הלוואות ישירות בהיקף של 500 מיליון דולר לספקי קמעונאות בארה"ב</h2>
+    <p>ברידג', פלטפורמת הלוואות המונעת על ידי בינה מלאכותית הנתמכת על ידי סיטי, השיקה קרן הלוואות ישירות בהיקף של 500 מיליון דולר לספקי קמעונאות בארה"ב. הקרן מיועדת למותגי מוצרים ארוזים ולספקי קמעונאות, ותסייע להם להרחיב את עסקיהם ולשמור על תנועת מוצרים בשרשרת האספקה. ברידג' סיפקה עד כה יותר מ-800 מיליון דולר לעסקים, כולל DogSauce, מוצר מזון לכלבים הנמכר בוולמארט.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההשקה של הקרן מצביעה על הזדמנויות חדשות למימון ספקי קמעונאות בארה"ב, במיוחד בתקופות קשות.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/27/bridge-launches-500m-direct-lending-fund-for-us-retail-suppliers/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>PGIM מרחיבה את פלטפורמת הסקנדרי עם מינוי במזרח התיכון</h2>
+    <p>PGIM הרחיבה את פלטפורמת הסקנדרי שלה, Montana Capital Partners, למזרח התיכון עם מינויו של לוקאס רדאל. רדאל, שהצטרף מהחברה Mubadala Capital, מונה לראש השקעות סקנדרי במזרח התיכון ויתמקם במשרד אבו דאבי של PGIM. הוא יהיה אחראי על זיהוי והוצאה לפועל של הזדמנויות השקעה סקנדריות ברחבי העולם, כמו גם על תמיכה במאמצי גיוס ההון של PGIM. כיום, MCP מנהלת נכסים בשווי 5.2 מיליארד דולר.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הרחבת PGIM למזרח התיכון מצביעה על התמקדות בשוק הסקנדרי באזור, מה שיכול להוביל להזדמנויות השקעה חדשות.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/27/pgim-expands-secondaries-platform-with-middle-east-hire/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="M&A" data-pri="4">
+  <div class="story-body">
+    <span class="tag">M&A</span>
+    <h2>KKR מסכימה להסדר שיא של 250 מיליון דולר עם משרד המשפטים האמריקאי על הגשת עסקאות</h2>
+    <p>KKR הסכימה לשלם 250 מיליון דולר כדי לסיים תביעה של משרד המשפטים האמריקאי, המאשימה את החברה בהפרת דרישות הגשת מידע לפני מיזוגים. ההסדר הוא הקנס האזרחי הגדול ביותר שניתן אי פעם בגין הפרות חוק ה-HSR. KKR טוענת כי פעלה בתום לב, אך בחרה להסדיר את המחלוקות כדי להימנע מהסחות דעת. התביעה הוגשה בינואר 2025, בעקבות אי הגשת מידע ב-16 עסקאות שביצעה KKR בשנתיים האחרונות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההסדר מצביע על עלייה במודעות הרגולטורית כלפי עסקאות מיזוג ורכישה בתחום ההשקעות הפרטיות.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/kkr-agrees-record-250m-settlement-with-us-justice-department-over-deal-filings/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>קבוצת Sixth Street וקונסורציום Carlyle-Dynasty מצטרפים לקבוצת הבעלות על סיאטל סיהוקס בשווי 9.6 מיליארד דולר</h2>
+    <p>קבוצת Sixth Street Partners וקונסורציום המורכב מקבוצת Carlyle ו-Dynasty Equity מצטרפים לקבוצת הבעלות על רכישת סיאטל סיהוקס בשווי 9.6 מיליארד דולר על ידי משפחת קוסלה. העסקה אושרה פה אחד על ידי בעלי הקבוצות ב-NFL, וההשקעה מצטרפת לקבוצה בראשות המשקיע הטכנולוגי וינוד קוסלה. ה-NFL מגביל השקעות קבוצתיות לקבוצת חברות הון פרטי מאושרות, כאשר Sixth Street כבר מחזיקה ב-3% מהמניות של ניו אינגלנד פטריוטס.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההשתתפות של Sixth Street ו-Carlyle בקבוצת הבעלות מצביעה על מגמת עלייה בהשקעות הון פרטי בספורט מקצועי.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/sixth-street-and-carlyle-dynasty-consortium-join-9-6bn-seahawks-ownership-group/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>דננטרה מתחייבת ל-1 מיליארד דולר לאסטרטגיית האשראי הפרטי של Partners Group</h2>
+    <p>קרן העושר הסוברת אינדונזית, דננטרה, התחייבה ל-1 מיליארד דולר לפלטפורמת האשראי הפרטי של Partners Group, מהלך משמעותי בשוק הפרטי הגלובלי. ההתחייבות כוללת 600 מיליון דולר להשקעות בהלוואות ישירות ו-400 מיליון דולר נוספים שיוקצו לפי שיקול דעת Partners Group, כולל הזדמנויות השקעה משותפות. האסטרטגיה תתמקד בהלוואות ישירות באסיה, עם עדיפות מיוחדת לאינדונזיה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההשקעה של דננטרה מצביעה על התחזקות האינטרס של קרנות עושר סוברניות בשוק האשראי הפרטי הגלובלי.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/danantara-commits-1bn-to-partners-group-private-credit-strategy/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>קרן ERS טקסס מגדילה את ההשקעות וממקדת את תשומת הלב ברכישות בשוק הביניים הנמוך</h2>
+    <p>קרן הפנסיה ERS טקסס מתכננת להגדיל את ההשקעה שלה בהון פרטי ליעד של 1 מיליארד דולר עד 2030. הקרן מצפה לעלייה משמעותית בהכנסות במהלך ארבע השנים הקרובות, מה שיאפשר לה להגדיל את ההשקעה בשוק הביניים הנמוך. המהלך נועד לנצל את ההזדמנויות בשוק ולמקסם את התשואות עבור המשקיעים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההחלטה של ERS טקסס להגדיל את ההשקעה בהון פרטי מצביעה על אמון בשוק הביניים הנמוך.</span></div>
+    <div class="source">
+      <span class="meta">buyoutsinsider.com · Alfie Crooks</span>
+      <a href="https://www.buyoutsinsider.com/ers-texas-increases-pacing-puts-focus-on-lower-mid-market-buyouts/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Other" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Other</span>
+    <h2>השקעות פרטיות בתשתיות בינה מלאכותית מחוץ לארה"ב</h2>
+    <p>השקעות פרטיות בתשתיות בינה מלאכותית מחוץ לארה"ב צמחו במחצית הראשונה של 2026, עם השקעות של 14.8 מיליארד דולר, בהשוואה ל-2.3 מיליארד דולר בכל 2025. ההשקעות בתשתיות דיגיטליות הגיעו ל-9.6 מיליארד דולר. חברת DayOne Data Centers מסינגפור גייסה 4.5 מיליארד דולר בסבב גיוס C, בעוד Liquid Intelligent Technologies מאפריקה גייסה 660 מיליון דולר בהלוואות, כולל 150 מיליון דולר מקרן Ninety One.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>העלייה בהשקעות בתשתיות בינה מלאכותית מחוץ לארה"ב מצביעה על הזדמנויות גידול בשווקים מתפתחים.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/26/ai-infrastructure-outside-us-attracts-private-capital/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>פרינסיפל פותחת תוכניות 401(k) לשווקים פרטיים</h2>
+    <p>קבוצת פרינסיפל פיננסית הרחיבה את עסקי תוכניות הפנסיה שלה בארה"ב כדי לכלול שווקים פרטיים, כאשר השקעות חלופיות נכנסות לתוכניות 401(k). החברה מתכננת לשתף פעולה עם מנהלי נכסים כמו בלקסטון, ארס, KKR וקבוצת פרטנרס, כדי להשיק סדרת נאמנויות השקעה משותפות (CITs) לתוכניות פנסיה בארה"ב, המשלבות אסטרטגיות ציבוריות ופרטיות. המהלך מתבצע לאחר צו נשיאותי שפתח את הדלת להשקעות חלופיות בחשבונות פנסיה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>המהלך של פרינסיפל מצביע על מגמה גוברת של שילוב השקעות חלופיות בתוכניות פנסיה, מה שיכול להציע הזדמנויות חדשות למשקיעים.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/26/principal-opens-401k-plans-to-private-markets/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>קרן קפיטל אדרס הגיעה לסגירה ראשונה של 76 מיליון דולר עבור קרן הצמיחה השנייה שלה באפריקה</h2>
+    <p>קרן קפיטל אדרס השיגה סגירה ראשונה של 76 מיליון דולר עבור קרן CCA Growth Fund II, המתמקדת בחברות קטנות ובינוניות בניגריה, גאנה, חוף השנהב וסנגל. בין המשקיעים חוזרים נמצאים המוסדות הפיננסיים הבינלאומיים IFC ו-BII, יחד עם מנהלי פנסיה ניגרים. הקרן מנוהלת על ידי פמי אוגונימיא, יומי ג'מיבוון ושירלי סומואה. ההשקעה נחשבת לצעד חשוב לגישור על פערי ההון באפריקה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>סגירה זו מצביעה על מגמת גיוס הון מקומי לצד משקיעים בינלאומיים באפריקה.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net · HedgeCo Admin</span>
+      <a href="https://hedgeco.net/news/08/2026/cardinalstone-hit-a-76-million-first-close-on-west-africa-growth-fund-ii.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>תומאס ברבו מציעה ללווים פשרות רחבות כאשר חובות התוכנה נמצאים תחת לחץ</h2>
+    <p>תומאס ברבו הסכימה על מגוון רחב של הגנות ללווים כדי להבטיח הארכה של שנתיים לחוב של כ-5 מיליארד דולר בחברת התוכנה Proofpoint. ההסכם כולל כ-40 שינויים במסמכי ההלוואה, כולל הגבלות על הלוואות נוספות והשקעות, במטרה להגן על זכויות הלווים. ההסכם מדגיש את האתגרים שעמם מתמודדות חברות ההון הפרטי עם תיקי תוכנה גדולים, במיוחד לאור החששות מהשפעת הבינה המלאכותית על מודלים עסקיים קיימים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההסכם של תומאס ברבו עם הלווים עשוי לשמש דוגמה לחברות אחרות המתמודדות עם חובות גדולים.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/thoma-bravo-offers-lenders-sweeping-concessions-as-software-debt-comes-under-pressure/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>משרד משפחת פיטר וו בוחן מכירת מניות PE בשווי 1 מיליארד דולר</h2>
+    <p>משרד משפחתו של המיליארדר ההונג קונגי פיטר וו בוחן מכירת עניין בהשקעות הון פרטי בשווי של כ-1 מיליארד דולר. על פי דיווח של בלומברג, מדובר במכירה של נכסים שיכולה לכלול השקעות במנהלי הון פרטיים כמו HSG, לשעבר סקוויה קפיטל סין, וב-Vista Equity Partners האמריקאית. התהליך נמצא בשלב מוקדם, והנכסים שייבחרו עדיין לא הוסרו.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>המכירה הפוטנציאלית מצביעה על עלייה בביקוש להשקעות בשוק ההון הפרטי.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/peter-woo-family-office-explores-1bn-pe-stake-sale/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>גיוס ההון של קרנות ההשקעה הפרטיות האמריקאיות צומח לשיא במחצית הראשונה של 2026</h2>
+    <p>קרנות ההשקעה הפרטיות האמריקאיות הממוקדות בעסקים בצמיחה גבוהה רושמות עלייה חדה בגיוס ההון, עם 33.2 מיליארד דולר שנאספו במחצית הראשונה של 2026, על פי דיווח של ה-Financial Times. מדובר בעלייה של 36% לעומת התקופה המקבילה בשנה שעברה, והשיא בהיסטוריה לגיוס הון עבור אסטרטגיה זו. הגיוס מתרחש למרות ירידה במספר המנהלים שיצאו לשוק, כאשר 87 קרנות גידול גייסו הון במחצית הראשונה, לעומת 96 בשנה שעברה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>העלייה בגיוס ההון מצביעה על חידוש עניין מוסדי בהשקעות בצמיחה, במיוחד בתחומים כמו אינטליגנציה מלאכותית.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/us-growth-pe-fundraising-rebounds-to-record-h1-high/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>גרייט איסטרן מתחייבת לכ-100 מיליון דולר לקרן האשראי הפרטי של גרניט אסיה</h2>
+    <p>חברת הביטוח גרייט איסטרן, הממוקמת בסינגפור, השקיעה כ-100 מיליון דולר בקרן האשראי הפרטי הראשונה של גרניט אסיה. ההשקעה מדגימה את הביקוש המתמשך מצד חברות ביטוח לאשראי פרטי, למרות הביקורת הגוברת על סיכוני האשראי. גרניט אסיה גייסה מעל 500 מיליון דולר עבור האסטרטגיה שלה, עם התחייבויות נוספות מחברות כמו DBS Private Bank ומשקיעים מוסדיים אחרים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההשקעה של גרייט איסטרן מצביעה על המשך העניין של חברות ביטוח באשראי פרטי, גם בעידן של סיכונים גוברים.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/great-eastern-commits-about-100m-to-granite-asia-private-credit-fund/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>Gaja Alternative Asset עלתה ב-20% ביום המסחר הראשון שלה לשווי של 261 מיליון דולר</h2>
+    <p>Gaja Alternative Asset Management, מנהל נכסים חלופיים מהודו, רשם עלייה של 20% ביום המסחר הראשון שלו, מה שהקנה לו שווי של כ-261 מיליון דולר. המניות נפתחו ב-NSE במחיר של 185 רופי, עלייה של 15.6% מהמחיר המנוי של 160 רופי. ההנפקה הראשונית, בהיקף של 57.5 מיליון דולר, הייתה הראשונה מסוגה בהודו, והציעה למשקיעים פרטיים גישה לאסטרטגיות השקעה שהיו עד כה זמינות בעיקר למשקיעים מוסדיים. ההנפקה זכתה לביקוש גבוה, עם רמות מניות שהוזמנו פי 31.3.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ההנפקה של Gaja משקפת את הצמיחה של שוק ההשקעות החלופיות בהודו ומספקת הזדמנויות חדשות למשקיעים פרטיים.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/gaja-alternative-asset-up-20-on-stock-market-debut-to-o-261m-valuation/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>קרנות Evergreen של Blackstone ו-KKR למשקיעים עשירים מושכות משקיעים מוסדיים</h2>
+    <p>משקיעים מוסדיים מתחילים להקצות הון לכלים בשוק הפרטי של Blackstone ו-KKR, שנועדו במקור לתת גישה למשקיעים עשירים להשקעות פרטיות, אשראי ותשתיות. קרנות ה-Evergreen, המאפשרות גישה להון בפרקי זמן קבועים, מושכות גם את תשומת הלב של קרנות פנסיה, קרנות תורמות ומשקיעים מוסדיים אחרים, למרות שהן מציעות בדרך כלל דמי ניהול נמוכים יותר ותשואות פוטנציאליות נמוכות יותר. Blackstone רואה עלייה בביקוש המוסדי, בעוד KKR מציעה כיתות מניות מוסדיות עבור מספר אסטרטגיות Evergreen שלה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>המעבר של משקיעים מוסדיים לקרנות Evergreen עשוי לשנות את פני השוק הפרטי, עם פוטנציאל להציע גמישות רבה יותר בהשקעות.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/blackstone-and-kkr-evergreen-funds-for-wealth-investors-attract-institutional-backers/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>Nuveen מגייסת 1 מיליארד דולר לקרן הלוואות ממוקדת אקלים</h2>
+    <p>Nuveen גייסה מעל 1 מיליארד דולר עבור הסגירה הראשונה של קרן ההלוואות הממוקדת באקלים Nuveen CPACE Lending Fund IV. הקרן, המנוהלת על ידי Nuveen Green Capital, מתמקדת במימון נדל"ן מסחרי בר קיימא. מאז הקמתה ב-2023, הקרן גייסה סך התחייבויות של 3 מיליארד דולר. הקרן מציעה מימון לבעלי נכסים ולמפתחים לשדרוגים המייעלים את האנרגיה והמים, ומכסה 39 מדינות בארה"ב. ההתחייבויות כוללות השקעות מחברות ביטוח בצפון אמריקה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגידול בהתחייבויות לקרן מצביע על כך שהשקעות באקלים הופכות להיות חלק מרכזי בתיקי הביטוח.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/25/nuveen-inks-1bn-for-climate-focused-lending-fund/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>CIP מגדילה את גודל קרן השווקים הצומחים ל-3 מיליארד דולר, קרן II כבר מחויבת ביותר מחצי</h2>
+    <p>Copenhagen Infrastructure Partners סגרה את קרן השווקים הצומחים השנייה שלה בסכום של כ-3 מיליארד דולר, כמעט שלושה פעמים מה-1 מיליארד דולר שנאסף עבור הקודמת. קרן זו משקפת את ההצלחה של המנהל בתחום ההשקעות בשווקים הצומחים, כאשר יותר מחצי מהקרן כבר מחויב.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגידול המשמעותי בגובה הקרן מצביע על אמון המשקיעים בשווקים הצומחים.</span></div>
+    <div class="source">
+      <span class="meta">altassets.net · Mike Didymus</span>
+      <a href="https://www.altassets.net/private-equity-news/by-region/europe-by-region/western-europe-europe-by-region/denmark-western-europe-europe-by-region/cip-triples-growth-markets-fund-size-to-3bn-fund-ii-already-more-than-half-committed.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>הלוואות ישירות באירופה מגיעות לשיא למרות ירידה ברבעון השני</h2>
+    <p>פעילות ההלוואות הישירות באירופה האטה ברבעון השני של 2026 בעקבות ירידה בעסקאות גדולות, אך עדיין קבעה שיא חצי שנתי. לפי מחקר של Debtwire, היקף ההלוואות הישירות באירופה עמד על 28.4 מיליארד יורו ברבעון השני, ירידה של 25% לעומת 38 מיליארד יורו באותו רבעון בשנה הקודמת. עם זאת, ההיקף הכולל בחצי הראשון של 2026 הגיע ל-63.16 מיליארד יורו, מה שמצביע על פוטנציאל לשנה שיא נוספת אם המגמה תימשך.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הנתונים מצביעים על יציבות בשוק ההלוואות הישירות באירופה, עם פוטנציאל להמשך צמיחה בשנה הקרובה.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/25/european-direct-lending-hits-record-despite-q2-dip/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>קרנות Arrow Global צומחות ליותר מ-€15 מיליארד</h2>
+    <p>נכון לסוף הרבעון השני של 2026, נכסי Arrow Global תחת ניהול (FUM) עלו ל-€15.5 מיליארד (£13.3 מיליארד), עלייה של 44% לעומת השנה הקודמת. העלייה נובעת מהתחזקות האסטרטגיה האשראית של החברה, שגייסה €5.2 מיליארד התחייבויות בשנה האחרונה. המנכ"ל זך לוי ציין כי הרבעון השני היה מאופיין במומנטום חזק בגיוס כספים, עם השקעה של €1.7 מיליארד במחצית הראשונה של 2026, כולל השקעה ב-65% מהפורטפוליו האירופי של קרן הפנסיה הקנדית.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>העלייה המשמעותית בנכסים מצביעה על ביקוש גובר לאסטרטגיות אשראיות באירופה.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/25/arrow-global-fum-jumps-to-over-e15bn/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>אזליה גייסה יותר מ-1 מיליארד דולר בשלוש קרנות השקעה פרטיות, כולל קרן פתוחה</h2>
+    <p>אזליה אינבסטמנט מנג'מנט, פלטפורמת ההשקעות הפרטיות בבעלות טמאסק, הודיעה על גיוס של יותר מ-1 מיליארד דולר בשלוש הצעות השקעה פרטיות. החבילה כוללת 526 מיליון דולר מהסגירה הסופית של קרן אלטריום III, 210 מיליון דולר מהסגירה הראשונה של קרן אלטריום II, ויותר מ-350 מיליון דולר מהשקת קרן אזליה אול אקסס, הקרן הפתוחה הראשונה של החברה. הסגירות לא כוללות רק כסף חדש, כאשר חלק מהסכומים הם חידוש התחייבויות ממשקיעים קיימים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס מצביע על התעניינות גוברת בהשקעות פרטיות באסיה, למרות האתגרים בשוק הגיוס.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net · HedgeCo Admin</span>
+      <a href="https://hedgeco.net/news/08/2026/azalea-raised-more-than-us1-billion-across-three-pe-vehicles-including-an-evergreen.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>גרניט אסיה מגייסת 500 מיליון דולר עבור אסטרטגיית אשראי פרטית לפאן-אסיה</h2>
+    <p>גרניט אסיה גייסה 500 מיליון דולר עבור אסטרטגיית האשראי הפרטי שלה לפאן-אסיה, עם התחייבויות מ-DBS Private Bank ומשקיעים מוסדיים נוספים. האסטרטגיה, Libra Hybrid, משקיעה בחברות בשוק הביניים באסיה והשקיעה בשמונה עסקאות מאז השקת הקרן ב-2025. ההשקעות מתפרסות על פני מגוון תחומים, כולל ייצור מתקדם, צריכה ובריאות. גרניט אסיה מנהלת נכסים בשווי של יותר מ-10 מיליארד דולר והשקיעה ביותר מ-500 חברות ו-68 הנפקות ציבוריות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס מצביע על ביקוש גובר לאשראי פרטי באסיה, עם השקעות מגוונות בתחומים שונים.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/08/25/granite-asia-raises-500m-for-pan-asia-private-credit-strategy/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Other" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Other</span>
+    <h2>KKR ממנה בכירה מ-JPMorgan כדי להרחיב את פעילות ההון הפרטי ביפן</h2>
+    <p>KKR מחזקת את מאמציה בשוק ההון הפרטי ביפן עם מינוי של סאיורי קונדו, בכירה ב-JPMorgan, למנהלת משותפת של ההון ביפן. קונדו, שתצטרף בסוף אוקטובר, תעבוד לצד יושיקצו טקמוטו, שהצטרף ל-KKR ב-2024. המהלך מתבצע על רקע המאמצים הגלובליים של חברות הון פרטי לנצל את מאגר המשקיעים העשירים ביפן, שמתחילים להשקיע יותר בהשקעות חלופיות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>המינוי מצביע על התחזקות העניין של KKR בשוק ההון הפרטי היפני, שצפוי להתרחב.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/kkr-hires-jpmorgan-veteran-to-drive-japan-wealth-expansion/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>קרן קפיטל פ' סוגרת קרן בכורה בגובה 17 מיליון דולר הממוקדת בכלכלה הנשית</h2>
+    <p>קרן קפיטל פ', חברת הון סיכון הממוקדת בעסקים טכנולוגיים המשרתים שווקים שבהם נשים מנהלות את רכישות המוצרים, סגרה את הקרן הראשונה שלה בגובה 17 מיליון דולר. הקרן מתמקדת בכלכלה הנשית, שמוערכת ב-15 טריליון דולר, ונשים מהוות כמעט 85% מהבסיס של המשקיעים המוסדיים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הקרן החדשה מדגישה את הצמיחה בשוק הממוקד בנשים, מה שמעיד על הזדמנויות השקעה משמעותיות.</span></div>
+    <div class="source">
+      <span class="meta">altassets.net · Mike Didymus</span>
+      <a href="https://www.altassets.net/private-equity-news/by-region/north-america-by-region/united-states-north-america-by-region/capital-f-closes-17m-debut-fund-targeting-15tn-female-economy-women-make-up-nearly-85-of-lp-base.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Other" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Other</span>
+    <h2>קבוצת פרטנרס מתמקדת באסיה-פסיפיק המפותחת כאשר איכות ה-GP משתנה</h2>
+    <p>קבוצת פרטנרס, חברת השקעות גדולה, מחפשת להוסיף קשרים בשוק הביניים של אוסטרליה לאחר שסיימה תהליך דומה ביפן, כך מדווח מנהל החברה מרטין ליו. המהלך מצביע על התמקדות גוברת באסיה-פסיפיק המפותחת.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>המהלך של קבוצת פרטנרס עשוי להצביע על הזדמנויות חדשות בשוק האוסטרלי.</span></div>
+    <div class="source">
+      <span class="meta">privateequityinternational.com · Alex Lynn</span>
+      <a href="https://www.privateequityinternational.com/partners-group-leans-into-developed-apac-as-gp-quality-diverges/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>Blackbird סוגרת סגירה שיא של 740 מיליון דולר עבור קרן VI לתמוך במייסדי ANZ</h2>
+    <p>Blackbird סגרה סגירה שיא של 740 מיליון דולר עבור קרן VI שלה, מה שמציב אותה בין הסגירות הגדולות ביותר באוסטרליה וניו זילנד. הקרן נועדה לתמוך במייסדי ANZ, מה שמעיד על התחזקות השוק המקומי להשקעות פרטיות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>סגירה זו מצביעה על התחזקות השוק להשקעות פרטיות באוסטרליה וניו זילנד.</span></div>
+    <div class="source">
+      <span class="meta">pitchbook.com · Kristie Neo</span>
+      <a href="https://pitchbook.com/news/articles/blackbird-hits-740m-fund-vi-record-close-to-back-anz-founders" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="M&A" data-pri="3">
+  <div class="story-body">
+    <span class="tag">M&A</span>
+    <h2>רכישת קוריום של לנטיוס מגובה במימון חוב של 5.375 מיליארד דולר</h2>
+    <p>קוריום רכשה את לנטיוס עם מימון חוב של 5.375 מיליארד דולר, כאשר CapVest Partners, הספונסר הנוכחי של קוריום, מספק התחייבות הונית של 2.346 מיליארד דולר.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הרכישה מצביעה על התחזקות בשוק הבריאות עם מימון משמעותי.</span></div>
+    <div class="source">
+      <span class="meta">pitchbook.com · Jonathan Hemingway</span>
+      <a href="https://pitchbook.com/news/articles/curium-acquisition-of-lantheus-backed-by-5-375b-of-debt-financing" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>גרניט אסיה גייסה מעל 500 מיליון דולר עבור אסטרטגיית האשראי הפרטי הראשונה שלה שנתיים לאחר הפיצול מ-GGV</h2>
+    <p>גרניט אסיה גייסה מעל 500 מיליון דולר עבור אסטרטגיית האשראי הפרטי הראשונה שלה, מה שמסמן התרחבות מהירה מעבר לעסקי ההון סיכון שהורישה מ-GGV קפיטל לאחר הפיצול של החברה ב-2024.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס מצביע על התרחבות משמעותית של גרניט אסיה לתחום האשראי הפרטי.</span></div>
+    <div class="source">
+      <span class="meta">altassets.net · Mike Didymus</span>
+      <a href="https://www.altassets.net/private-equity-news/by-region/asia-by-region/granite-asia-tops-500m-for-first-private-credit-strategy-two-years-after-ggv-split.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>פיאט ונצ'רס משנה את שמה ל-FGV קפיטל, סוגרת גיוס של 35 מיליון דולר לקרן השנייה</h2>
+    <p>פיאט ונצ'רס שינתה את שמה ל-FGV קפיטל וסגרה את הקרן השנייה שלה בגובה 35 מיליון דולר, 40% מעל היעד המקורי שלה. הקרן החדשה משקפת את התחייבות החברה להרחיב את פעילותה בשוק ההשקעות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגיוס המוצלח מצביע על אמון המשקיעים בפוטנציאל הצמיחה של FGV קפיטל.</span></div>
+    <div class="source">
+      <span class="meta">altassets.net · Mike Didymus</span>
+      <a href="https://www.altassets.net/private-equity-news/by-region/north-america-by-region/united-states-north-america-by-region/fiat-ventures-rebrands-as-fgv-capital-seals-oversubscribed-35m-fund-ii-close.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+
+  </main>
+
+  <div class="closer">
+    <img src="../assets/img-5.jpg" alt="שני אנשים משוחחים בפגישה">
+    <div class="veil">
+      <div class="line">
+        <span class="a">Aspire.</span>
+        <span class="b">Level up.</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="signoff pad">
+    <p>
+      "מבט אלטרנטיבי" הוא סקירה שבועית של Aspire Investments, המלקטת את הכתבות המשמעותיות
+      בשוק ההון הפרטי ומתמצתת אותן לקריאה של חמש דקות.
+    </p>
+  </section>
+
+  <div class="footer pad">
+    <div class="footer-row">
+      <a href="https://aspire-invest.com/" target="_blank" rel="noopener">aspire-invest.com</a>
+      <span class="sep">|</span>
+      <span>Aspire Investments</span>
+      <span class="sep">|</span>
+      <span>150 Menakhem Begin, Tel Aviv-Yafo, Israel</span>
+    </div>
+  </div>
+
+  <div class="legal pad">
+    האמור בסקירה זו הוא מידע כללי בלבד, המבוסס על פרסומים גלויים לציבור, ואינו מהווה ייעוץ
+    השקעות, שיווק השקעות או תחליף לייעוץ אישי המתחשב בנתוניו ובצרכיו של כל אדם. אין באמור
+    משום הצעה לרכישת ניירות ערך או יחידות בקרנות. Aspire Investments אינה אחראית לדיוק המידע
+    במקורות החיצוניים המצוטטים.
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var main = document.querySelector('.stories');
+  var nav  = document.querySelector('.filters');
+  if (!main || !nav) return;
+
+  var CAP_CAT = 3;          /* most stories from any one category */
+  var CAP_SRC = 3;          /* most stories from any one website  */
+  var MIN = 8, MAX = 12;    /* an issue runs between these two    */
+
+  function rank(c) { return parseInt(c.getAttribute('data-pri'), 10) || 0; }
+  function site(c) {
+    var a = c.querySelector('.source a');
+    if (!a) return '';
+    var m = String(a.getAttribute('href')).match(/^https?:\/\/([^\/?#]+)/i);
+    return m ? m[1].toLowerCase().replace(/^www\./, '') : '';
+  }
+
+  /* Make sends more candidates than an issue needs, strongest first. Walk them in order and
+     keep a story only while its category and its website both still have room, so neither one
+     busy sector nor one prolific publisher can take over the issue. */
+  var all = Array.prototype.slice.call(main.querySelectorAll('.story'))
+    .filter(function (c) { return (c.getAttribute('data-cat') || '').trim() !== ''; });
+  if (!all.length) return;
+
+  var cards = [], spare = [], byCat = Object.create(null), bySrc = Object.create(null);
+  all.forEach(function (c) {
+    var k = c.getAttribute('data-cat'), s = site(c);
+    if (cards.length < MAX && (byCat[k] || 0) < CAP_CAT && (bySrc[s] || 0) < CAP_SRC) {
+      byCat[k] = (byCat[k] || 0) + 1;
+      bySrc[s] = (bySrc[s] || 0) + 1;
+      cards.push(c);
+    } else { spare.push(c); }
+  });
+
+  /* A sector that had candidates should never be missing from the issue altogether. Cover the
+     gap even if it costs one extra story from a website already at its cap — a whole absent
+     category is far more visible to the reader than a fourth story from one publisher. */
+  var present = Object.create(null);
+  all.forEach(function (c) { present[c.getAttribute('data-cat')] = true; });
+  Object.keys(present).forEach(function (k) {
+    if (byCat[k] || cards.length >= MAX) return;
+    for (var n = 0; n < spare.length; n++) {
+      if (spare[n].getAttribute('data-cat') === k) {
+        byCat[k] = 1;
+        cards.push(spare.splice(n, 1)[0]);
+        return;
+      }
+    }
+  });
+
+  /* Top up only as far as the minimum. Above it a shorter issue beats a lopsided one, which
+     is why the caps are allowed to end the issue at 9 or 10 rather than forcing 12. When we
+     do have to reach, take from whichever category is thinnest; spare is still in rank order,
+     so ties go to the strongest story. */
+  while (cards.length < MIN && spare.length) {
+    var best = 0;
+    for (var j = 1; j < spare.length; j++) {
+      if ((byCat[spare[j].getAttribute('data-cat')] || 0) <
+          (byCat[spare[best].getAttribute('data-cat')] || 0)) { best = j; }
+    }
+    var pick = spare.splice(best, 1)[0], pk = pick.getAttribute('data-cat');
+    byCat[pk] = (byCat[pk] || 0) + 1;
+    cards.push(pick);
+  }
+
+  spare.forEach(function (c) { if (c.parentNode) c.parentNode.removeChild(c); });
+  cards.sort(function (a, b) { return rank(b) - rank(a); });
+  cards.forEach(function (c) { main.appendChild(c); });
+  if (cards.length < 3) return;
+
+  /* The standfirst is written before the caps run, so its "N כתבות" is a guess. Only the page
+     knows how many actually printed — correct the numeral here. */
+  var NUM = { 8: 'שמונה', 9: 'תשע', 10: 'עשר', 11: 'אחת עשרה', 12: 'שתים עשרה' };
+  var sf = document.querySelector('.standfirst');
+  if (sf && NUM[cards.length]) {
+    sf.textContent = sf.textContent.replace(
+      /(שתים עשרה|אחת עשרה|שתיים|שמונה|שלוש|ארבע|שבע|תשע|חמש|עשר|שתי|שש|\d{1,2})(?=\s+כתבות)/,
+      NUM[cards.length]);
+  }
+
+  /* categories, in the order they first appear in the issue */
+  var order = [], counts = Object.create(null);
+  cards.forEach(function (c) {
+    var k = (c.getAttribute('data-cat') || '').trim();
+    if (!k) return;
+    if (counts[k] === undefined) { counts[k] = 0; order.push(k); }
+    counts[k] += 1;
+  });
+  if (order.length < 2) return;
+
+  main.classList.add('js');
+  var pics = ['pic-a', 'pic-b', 'pic-c'];
+
+  /* re-apply the lead / tinted / photo rhythm to whatever is currently visible */
+  function paint() {
+    var seen = 0;
+    cards.forEach(function (c) {
+      if (c.hidden) { c.className = 'story'; return; }
+      var cls = 'story';
+      if (seen === 0) {
+        cls += ' lead';
+      } else if (seen >= 2 && seen % 2 === 0) {
+        cls += ' alt ' + pics[((seen - 2) / 2) % 3];
+      }
+      c.className = cls;
+      seen += 1;
+    });
+  }
+
+  function select(cat) {
+    cards.forEach(function (c) {
+      c.hidden = (cat !== '*' && c.getAttribute('data-cat') !== cat);
+    });
+    Array.prototype.forEach.call(nav.children, function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-cat') === cat ? 'true' : 'false');
+    });
+    paint();
+  }
+
+  function addButton(cat, label, n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('data-cat', cat);
+    b.setAttribute('aria-pressed', 'false');
+    var s = document.createElement('span');
+    s.textContent = label;
+    var i = document.createElement('i');
+    i.textContent = n;
+    b.appendChild(s);
+    b.appendChild(i);
+    b.addEventListener('click', function () { select(cat); });
+    nav.appendChild(b);
+  }
+
+  addButton('*', 'הכל', cards.length);
+  order.forEach(function (k) { addButton(k, k, counts[k]); });
+  select('*');
+}());
+</script>
+
+</body>
+</html>
+
