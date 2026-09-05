@@ -1,0 +1,734 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>מבט אלטרנטיבי · Aspire Investments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700;800&display=swap">
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --brand:#72BCFF; --brand-ink:#1668B8; --wash:#EAF4FF;
+    --navy:#1F2233; --green:#AEFAA4;
+    --bg:#F4F7FB; --surface:#FFFFFF;
+    --ink:#1F2233; --ink-2:#565C70; --ink-3:#868DA0; --rule:#DCE4EF;
+    --card-edge:#CBD8E8; --wash-edge:#BBD8F5;
+    --font-he:"Assistant","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --font-la:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --measure:72ch; --gutter:clamp(22px,6vw,56px); --inset:clamp(8px,2vw,14px);
+  }
+  body{ background:var(--bg); color:var(--ink); font-family:var(--font-he);
+        font-size:17px; line-height:1.75; -webkit-font-smoothing:antialiased; }
+  .page{ max-width:780px; margin:0 auto; background:var(--surface); text-align:right; overflow:hidden; }
+  .pad{ padding-inline:var(--gutter); }
+  img{ display:block; max-width:100%; }
+
+  /* ---------- Masthead ---------- */
+  .masthead{ display:flex; align-items:center; justify-content:space-between; gap:20px; padding-block:30px 24px; }
+  .logo{ width:148px; }
+  .logo svg{ width:100%; height:auto; display:block; }
+  .logo svg path{ fill:var(--brand); }
+  .logo .sub{ display:block; font-family:var(--font-la); font-weight:400; font-size:13px;
+              line-height:1; text-align:left; color:var(--ink); margin-top:4px; padding-right:3px; direction:ltr; }
+  /* ---------- Hero ---------- */
+  .hero img{ width:100%; height:auto; }
+  .hero-strip{ display:flex; height:7px; }
+  .hero-strip span{ flex:1; }
+  .hero-strip span:nth-child(1){ background:var(--brand); flex:6; }
+  .hero-strip span:nth-child(2){ background:var(--navy); flex:3; }
+  .hero-strip span:nth-child(3){ background:var(--green); flex:1; }
+
+  /* ---------- Issue header ---------- */
+  .issue{ padding-block:34px 32px; }
+  .kicker{ font-size:12px; font-weight:700; letter-spacing:.05em; color:var(--brand-ink); }
+  .kicker span{ color:var(--ink-3); font-weight:500; }
+  h1{ font-size:clamp(2.15rem,7vw,3.1rem); line-height:1.05; letter-spacing:-.02em; margin-top:12px; text-wrap:balance; }
+  h1 .light{ display:block; font-weight:200; color:var(--ink-2); }
+  h1 .bold{ display:block; font-weight:700; color:var(--brand-ink); }
+  .standfirst{ margin-top:18px; max-width:var(--measure); margin-inline-end:auto;
+               color:var(--ink-2); font-size:1.06rem; font-weight:300; }
+
+  /* ---------- Category filter ---------- */
+  /* built by script from the cards themselves — stays invisible if the script never runs */
+  .filters{ display:flex; flex-wrap:wrap; gap:8px; padding:0 var(--gutter) 30px; }
+  .filters:empty{ display:none; }
+  .filters button{ font-family:var(--font-he); font-size:13px; font-weight:600; color:var(--ink-2);
+                   background:transparent; border:1px solid var(--rule); border-radius:999px;
+                   padding:6px 13px; cursor:pointer; line-height:1.45;
+                   display:inline-flex; align-items:center; gap:7px; transition:.15s ease; }
+  .filters button span{ unicode-bidi:isolate; }
+  .filters button i{ font-style:normal; font-size:11px; font-weight:700; color:var(--ink-3);
+                     font-variant-numeric:tabular-nums; }
+  .filters button:hover{ border-color:var(--brand); color:var(--ink); }
+  .filters button[aria-pressed="true"]{ background:var(--navy); border-color:var(--navy); color:#FFFFFF; }
+  .filters button[aria-pressed="true"] i{ color:var(--green); }
+  .filters button:focus-visible{ outline:2px solid var(--brand-ink); outline-offset:2px; }
+
+  /* ---------- Stories ---------- */
+  /* Each story is its own rounded card. The cards are inset from the page edge and the body
+     padding gives that inset back, so story text still lines up with the masthead above it. */
+  .stories{ display:flex; flex-direction:column; gap:12px;
+            padding:0 var(--inset) var(--inset); }
+  .story{ background:var(--surface); border:2px solid var(--card-edge);
+          border-radius:16px; overflow:hidden; }
+  .story[hidden]{ display:none; }
+  /* a category with no stories this week still emits one blank card — drop it */
+  .story:not([data-cat]),
+  .story[data-cat=""]{ display:none; }
+  .story-body{ padding:30px calc(var(--gutter) - var(--inset)) 34px; }
+  .tag{ display:inline-block; font-family:var(--font-la); font-size:10.5px; font-weight:700;
+        letter-spacing:.13em; text-transform:uppercase; background:var(--brand); color:var(--navy);
+        padding:4px 9px 3px; border-radius:4px; direction:ltr; }
+  .story h2{ font-size:clamp(1.35rem,3.6vw,1.72rem); font-weight:600; line-height:1.25;
+             letter-spacing:-.015em; margin-top:12px; text-wrap:balance; }
+  .story p{ margin-top:14px; max-width:var(--measure); margin-inline-end:auto; color:var(--ink-2); }
+
+  /* Stories 3,5,7,9... are tinted and carry a photo, exactly as in the original issue.
+     Two selectors for each rule: the nth-child one is the no-script baseline, the class one is
+     what the filter script assigns so the rhythm survives when cards are hidden. */
+  :is(.stories:not(.js) .story:nth-child(2n+3), .story.alt){ background:var(--wash); border-color:var(--wash-edge); }
+  :is(.stories:not(.js) .story:nth-child(2n+3), .story.alt)::before{
+    content:""; display:block;
+    aspect-ratio:1200/545;
+    background-size:cover; background-position:center;
+  }
+  :is(.stories:not(.js) .story:nth-child(10n+3), .story.pic-a)::before{ background-image:url("../assets/img-2.jpg"); }
+  :is(.stories:not(.js) .story:nth-child(10n+5), .story.pic-b)::before{ background-image:url("../assets/img-3.jpg"); }
+  :is(.stories:not(.js) .story:nth-child(10n+7), .story.pic-c)::before{ background-image:url("../assets/img-4.jpg"); }
+  :is(.stories:not(.js) .story:nth-child(10n+9), .story.pic-d)::before{ background-image:url("../assets/img-6.jpg"); }
+  :is(.stories:not(.js) .story:nth-child(10n+11), .story.pic-e)::before{ background-image:url("../assets/img-7.jpg"); }
+
+  /* first story = the lead, on brand blue */
+  :is(.stories:not(.js) .story:first-child, .story.lead){ background:var(--brand); border-color:transparent; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .story-body{ padding-block:40px 44px; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .tag{ background:var(--navy); color:#FFFFFF; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) h2{ color:var(--navy); font-weight:700; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) p{ color:#16283B; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .source{ color:#21384F; }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .source a{ color:var(--navy); border-bottom-color:rgba(31,34,51,.45); }
+  :is(.stories:not(.js) .story:first-child, .story.lead) .dot{ color:rgba(31,34,51,.35); }
+
+  /* ---------- Takeaway ---------- */
+  .takeaway{ margin-top:22px; background:var(--navy); color:#E9EDF5; padding:16px 18px;
+             font-size:.97rem; font-weight:300; line-height:1.65; border-radius:10px;
+             max-width:var(--measure); margin-inline-end:auto; }
+  .takeaway b{ display:block; font-family:var(--font-he); font-size:11.5px; font-weight:700;
+               letter-spacing:.12em; color:var(--green); margin-bottom:5px; }
+  /* an article with no takeaway hides the whole box; same for an empty meta item */
+  .takeaway:has(span:empty){ display:none; }
+  .source .meta:empty{ display:none; }
+  .source .meta + .meta:not(:empty)::before{ content:"·"; margin-inline-end:10px; color:var(--rule); }
+
+  /* ---------- Source line ---------- */
+  .source{ margin-top:18px; font-size:.85rem; color:var(--ink-3);
+           display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; }
+  .source .meta{ direction:ltr; }
+  .source a{ color:var(--brand-ink); text-decoration:none; font-weight:600;
+             border-bottom:1px solid rgba(22,104,184,.35); }
+  .source a:hover{ border-bottom-color:currentColor; }
+  .dot{ color:var(--rule); }
+
+  /* ---------- Closing panel ---------- */
+  .closer{ position:relative; background:var(--navy); min-height:190px; }
+  .closer img{ width:100%; height:auto; opacity:.5; }
+  .closer .veil{ position:absolute; inset:0;
+                 background:linear-gradient(to left, rgba(31,34,51,.96) 34%, rgba(31,34,51,.55) 100%);
+                 display:flex; align-items:center; justify-content:flex-start; padding-inline:var(--gutter); }
+  .closer .line{ direction:ltr; text-align:right; font-family:var(--font-la);
+                 font-size:clamp(1.7rem,5.5vw,2.5rem); line-height:1.08; letter-spacing:-.02em; }
+  .closer .line .a{ display:block; font-weight:300; color:#FFFFFF; }
+  .closer .line .b{ display:block; font-weight:700; color:var(--green); }
+
+  .signoff{ padding-block:28px 30px; }
+  .signoff p{ font-size:.95rem; color:var(--ink-2); font-weight:300;
+              max-width:var(--measure); margin-inline-end:auto; }
+
+  .footer{ background:var(--brand); color:var(--navy); padding-block:18px;
+           font-family:var(--font-la); font-size:13px; }
+  .footer-row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; }
+  .footer span,.footer a{ direction:ltr; }
+  .footer a{ color:var(--navy); text-decoration:none; font-weight:500; }
+  .footer .sep{ opacity:.4; }
+
+  .legal{ padding-block:18px 26px; font-size:.78rem; line-height:1.65;
+          color:var(--ink-3); font-weight:300; }
+
+  @media (max-width:560px){
+    body{ font-size:16.5px; }
+    .masthead{ padding-block:24px 18px; }
+    .closer .veil{ background:linear-gradient(to left, rgba(31,34,51,.94) 55%, rgba(31,34,51,.7) 100%); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page" dir="rtl" lang="he">
+
+  <header class="masthead pad">
+    <div class="logo">
+      <svg viewBox="418 330 1082 272" role="img" aria-label="Aspire Investments">
+        <path d="M629.42,336.54l62.51,258.08h-76.49l-23.15-98.78-90.53,98.78h-77.97l69.91-258.08h135.72ZM561.14,357.09l-38.64,150.41c20.08-20.27,39.28-42.84,58.64-63.83l-20-86.58Z"/>
+        <path d="M1493.07,480.84c.54,6.32.36,15.77,0,22.19,0,.11-.79,10.57-1.65,14.79h-116.8c7.89,31.37,63.37,30.38,74.43,1.65l40.66,39.15c-15.67,20.93-40.71,34.06-66.94,35.68-52.62,3.25-98.96-17.04-108.78-73.01-13.67-77.92,45.19-134.26,122.32-112.36,32.12,9.12,53.95,39.01,56.76,71.92ZM1433.02,482.48c-1.62-9.91-3.8-19.92-13.69-24.54-8.52-3.98-19.74-4.01-28.47-.74-11.05,4.14-16.57,13.75-17.06,25.28h59.22Z"/>
+        <path d="M843.85,428.41l-36.62,39.96c-6.27-2.64-10.35-5.21-16.79-7.53-10.34-3.74-30.6-8.98-40.97-5.98-10.9,3.15-6.13,10.41,1.69,14,32.07,14.73,94.75,16.13,98.68,62.49,3.28,38.61-28.54,60.43-63.74,62.86-27.51,1.9-56.78-2.86-82.29-12.97l38.85-42.39c10.8,2.72,34.9,10.43,44.65,3.97,7.9-5.24-1.36-10.49-6.33-12.51-31.92-12.97-94.03-13.63-98.08-58.98-5.63-62.94,64.84-72.7,112.02-63.44,17.91,3.51,33.28,11.61,48.94,20.54Z"/>
+        <path d="M1222.46,463.06l8.08-22.75c8.39-17.22,21.48-31.19,41.09-34.56,18.72-3.22,45.09,2.93,51.42,23.15l-48.96,53.42s-20.33-34.35-37.58-21.25c-6.73,5.11-14.05,19.55-14.05,27.87v105.62h-67.45v-185.75h67.45v54.25Z"/>
+        <path d="M1067,408.87h66.62v185.75h-66.62z"/>
+        <path d="M1067,335.7h66.62v49.32h-66.62z"/>
+        <path d="M989.78,405.08c-32.55,0-53.28,25.63-60.87,61.65v-9.87l-.09.28v-48.49h-66.62v250.69h66.62v-115.89l.09.3v-6.67c6.71,33.82,24.55,57.55,60.87,57.55,45.3,0,65.9-42.43,65.9-94.77s-20.42-94.77-65.9-94.77ZM962.19,541.92c-21.59,0-28.47-18.88-28.47-42.12s9.9-42.02,28.47-42.02c20.19,0,29.25,18.84,29.25,42.07s-9.15,42.07-29.25,42.07Z"/>
+      </svg>
+      <span class="sub">Investments</span>
+    </div>
+  </header>
+
+  <div class="hero">
+    <img src="../assets/img-1.jpg" alt="גרם מדרגות מעוגל בבניין מודרני">
+    <div class="hero-strip" aria-hidden="true"><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="issue pad">
+    <div class="kicker"><b>מבט אלטרנטיבי</b> <span>· גיליון 7 · 05/09/2026 · 5 דקות קריאה</span></div>
+    <h1>
+      <span class="light">השוק הפרטי</span>
+      <span class="bold">השבוע.</span>
+    </h1>
+    <p class="standfirst">השבוע מתגלה מתיחות בשוק ההשקעות, כאשר מצד אחד משקיעים מוסדיים מגבירים את ההשקעות באסטרטגיות private credit, ומנגד, פדיונות משמעותיים מכלים לא סחירים מדגישים את הלחץ על הנזילות. כמו כן, גיוסים מרשימים בקרנות private equity וקרנות תשתיות מצביעים על ביקוש גובר לאסטרטגיות השקעה מגוונות.</p>
+  </div>
+
+  <nav class="filters" aria-label="סינון לפי קטגוריה"></nav>
+
+  <main class="stories">
+<article class="story" data-cat="Fundraising" data-pri="5">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>Carrick Capital Partners סגרה continuation vehicle של 600 מיליון דולר סביב Saviynt</h2>
+    <p>Carrick Capital Partners סגרה GP-led single-asset continuation vehicle עבור Saviynt, עם commitments בהיקף כ-600 מיליון דולר. העסקה כוללת follow-on חדש של 255 מיליון דולר — הגדול בתולדות המנהלת — במסגרת ה-final close של Series B, ומימנה גם tender לעובדים. LP קיימים יכלו לבצע rollover אל הרכב או לממש מכפיל של 11x gross ו-10x net על ההשקעה המקורית. Coller Capital הובילה את הרכב ו-HSBC Asset Management שימשה co-lead; סבב ה-Series B עמד על 700 מיליון דולר לפי שווי של כ-3 מיליארד דולר.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>מבנה ה-continuation vehicle סיפק ל-LP נזילות לצד המשך exposure, בעוד המנהלת הגדילה את השקעתה בנכס יחיד.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net</span>
+      <a href="https://hedgeco.net/news/09/2026/carrick-closed-a-600-million-continuation-vehicle-around-saviynt.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="5">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>ה-IPO של Shein מותיר חלק מהמשקיעים הפרטיים עם הפחתת שווי של 73%</h2>
+    <p>ה-IPO של Shein בהונג קונג גייס 1.7 מיליארד דולר, אך שווי החברה ברישום היה נמוך בכ-73% מהשיא של כ-98 מיליארד דולר בתחילת 2022. משקיעים מאוחרים, בהם Boyu Capital, Coatue Management, Thrive Capital ו-General Atlantic, ניצבים מול הפסדים על הנייר. משקיעי סבב D בשווי השיא זכאים לפיצוי ולריבית של מיליארדי דולרים מכוח conversion adjustment. מנגד, HSG השקיעה בשווי 2.4 מיליארד דולר, ו-IDG Capital בשווי 164 מיליון דולר, ולכן המוקדמים עדיין עשויים לרשום תשואה משמעותית.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>פערי שווי הכניסה ומנגנוני conversion adjustment יצרו פער חד בין תוצאות המשקיעים המוקדמים והמאוחרים באותו IPO.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/shein-ipo-leaves-some-private-backers-facing-73-valuation-reset/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="5">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>Ares Management סגרה קרן לוגיסטיקה יפנית בשיא של 3.8 מיליארד דולר</h2>
+    <p>Ares Management גייסה 612 מיליארד ין, כ-3.8 מיליארד דולר, ל-Japan Logistics Development Partners V LP, אסטרטגיית פיתוח לוגיסטיקה ביפן. זהו גיוס ה-closed-end המוסדי הגדול בתולדותיה, והיקפו גבוה בכמעט 50% מקרן קודמת שגויסה ב-2021. Canada Pension Plan Investment Board התחייבה ל-150 מיליארד ין כמשקיעת cornerstone; משקיעים נוספים כוללים קרנות עושר ריבוניות, מבטחים ומוסדיים מארבעה אזורים בעולם. הקרן תפתח מתקני לוגיסטיקה מודרניים בטוקיו, אוסקה ונגויה, על רקע שינויים בהפצה ובשרשראות האספקה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הגודל וה-commitment של משקיעת ה-cornerstone מצביעים על עומק הביקוש המוסדי לאסטרטגיות לוגיסטיקה יפניות.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/ares-closes-record-3-8bn-japan-logistics-fund/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Infrastructure" data-pri="5">
+  <div class="story-body">
+    <span class="tag">Infrastructure</span>
+    <h2>Apollo סיכמה על מכירת Kelvion ל-SLB תמורת 4.1 מיליארד דולר</h2>
+    <p>קרנות בניהול Apollo הסכימו למכור את Kelvion ל-SLB תמורת כ-4.1 מיליארד דולר: 3.4 מיליארד במזומן ונטילת חוב של כ-700 מיליון. SLB תרכוש 100% מהחברה, וגם קרנות בייעוץ Triton ימכרו את ה-minority stake שלהן. השלמת העסקה צפויה במחצית הראשונה של 2027, בכפוף לאישורים רגולטוריים. Apollo הפכה לבעלת השליטה בינואר 2026 ותמכה בהרחבת הקירור למרכזי נתונים, כיום המגזר הגדול והצומח ביותר של Kelvion; הפעילות תשולב בפתרונות מרכזי הנתונים של SLB.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ה-exit המהיר ממחיש את הביקוש האסטרטגי לנכסי קירור התומכים בתשתיות AI.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/apollo-agrees-4-1bn-sale-of-kelvion-to-slb/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>תשלומי ה-carried interest ב-Private Equity בבריטניה הגיעו לשיא של 5.4 מיליארד ליש״ט</h2>
+    <p>אנשי Private Equity בבריטניה קיבלו בשנת המס 2024–2025 שיא של 5.4 מיליארד ליש״ט ב-carried interest ובתשלומים תלויי רווח, עלייה של 50% משנה קודמת, לאחר שמנהלים הקדימו מימושים לקראת העלאת המס. תקבולי המס הגיעו ל-1.45 מיליארד ליש״ט, לעומת השיא הקודם של 1.34 מיליארד. זאת אף שהיקף מכירות ה-Private Equity ירד לכ-42 מיליארד ליש״ט, פחות ממחצית מ-91 מיליארד ב-2023; יותר מ-65% מהעסקאות היו sponsor-to-sponsor, השיעור הגבוה בעשור.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הזינוק בתשלומים משקף בעיקר תזמון מס, בעוד תלות שיא בעסקאות sponsor-to-sponsor מצביעה על מגבלות נזילות מתמשכות.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/uk-pe-carried-interest-hits-record-5-4bn/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>קרן ה-private credit של Blackstone, בהיקף 77 מיליארד דולר, משאירה מגבלת redemption של 5%</h2>
+    <p>Blackstone Private Credit Fund (BCRED), עם נכסים בהיקף כ-77.2 מיליארד דולר, השאירה את מגבלת ה-redemption הרבעונית על 5% מהמניות, לאחר שבקשות ברבעון השלישי הגיעו לכ-4.3 מיליארד דולר — כ-10% מהקרן. הבקשות דמו לרבעון הקודם, שבו נותרו כ-2.3 מיליארד דולר שלא נפדו. ברבעון נרשמו net outflows של כ-3%, לצד inflows של כ-750 מיליון דולר. לפי Blackstone, לאחר ה-repurchase האחרון יקבלו מבקשי הנזילות משני הרבעונים כ-75% מההון שביקשו, והחזרי הלוואות וכניסות השקעה עולים על שווי המניות שנרכשו בחזרה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הפער המתמשך בין בקשות המשקיעים לקיבולת ה-redemption מדגיש את לחץ הנזילות בכלי private credit לא סחירים.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/blackstones-77bn-private-credit-fund-keeps-5-redemption-limit/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>משפחת Benetton קיבלה אישורים לפלטפורמת private markets בהיקף 3 מיליארד אירו</h2>
+    <p>משפחת Benetton קיבלה אישורים רגולטוריים להשקת 21 Next, פלטפורמת private markets אירופית עם כ-3 מיליארד אירו ב-AUM. Edizione תחזיק 55%, והמייסדים וההנהלה של 21 Invest ו-21 Tages יחזיקו 45%. בפלטפורמה יותר מ-100 אנשי השקעות ו-11 קרנות פעילות, ו-Edizione תעמיד 500 מיליון אירו כ-seed capital. 21 Invest נערכת לקרן private equity כלל-אירופית ב-target של כ-800 מיליון אירו; 21 Tages השיקה אסטרטגיית infrastructure ב-target של 500 מיליון אירו.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>השילוב בין AUM קיים ל-seed capital יוצר בסיס להרחבת כמה אסטרטגיות אירופיות תחת פלטפורמה אחת.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/benetton-family-secures-approvals-for-e3bn-private-markets-platform/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>Arizona State Retirement System מעמיקה את ההשקעה ב-SRT</h2>
+    <p>Arizona State Retirement System העניקה ל-BNP Paribas Asset Management Alts mandate להשקעה של 600 מיליון דולר ב-SRT. ה-commitment מצטרף ל-allocation של 400 מיליון דולר מאפריל 2024, ומעלה את סך ההתחייבויות לאסטרטגיית ה-SRT של המנהל למיליארד דולר. הקרן מסרה כי המהלך נועד להגדיל את ה-allocation ל-private credit בארה״ב ובאירופה. לפי המנהל, כ-40 בנקים הנפיקו SRT בהיקף של 15 מיליארד דולר במחצית הראשונה של 2026, ויותר מ-70% מהנפח הגיע מבנקים אירופיים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ה-commitment ממחיש את הרחבת ה-exposure המוסדי ל-SRT מעבר לאסטרטגיות direct lending.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/09/03/arizona-pension-fund-doubles-down-on-srts/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>מלווים בשוק ה-private credit בארה״ב הפחיתו שווי של הלוואות תוכנה נוספות</h2>
+    <p>ניתוח דיווחים רגולטוריים של 44 BDCs בארה״ב מצא כי ה-fair value המצרפי של תיקיהן עמד בסוף יוני על 92.88 מיליארד דולר, לעומת cost מדווח או amortised cost של 95.19 מיליארד דולר. יחס ה-fair value ל-cost ירד מ-99.25% בסוף 2025 ל-97.77% ברבעון הראשון ול-97.57% ברבעון השני. במהלך השנה נרשמו markdowns ב-81% מהלוואות התוכנה, לעומת 40% מההלוואות מחוץ לענף; הלוואותיהם של כ-4% מהלווים הוערכו מתחת ל-80% מה-par, לעומת כ-1% בשנים 2023–2025.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הפער החריג בין תוכנה לשאר הענפים ממקד את סיכון השערוך בתיקי ה-private credit בענף אחד.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/us-private-credit-lenders-mark-down-more-software-loans/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>CVC גייסה סכום שיא של 10 מיליארד דולר לקרן ה-secondaries האחרונה שלה</h2>
+    <p>CVC גייסה 10 מיליארד דולר ל-Secondary Opportunities Fund VI, הקרן הגדולה ביותר שהקימה להשקעה ב-secondaries של נכסי private equity. הקרן משכה יותר מ-200 משקיעים חדשים וקיימים, לעומת 5.8 מיליארד דולר בקרן הקודמת ב-2023 ו-2.7 מיליארד ב-2019. היקף עסקאות ה-secondaries הגיע לשיא של 121 מיליארד דולר במחצית הראשונה של השנה. CVC נכנסה לתחום ברכישת Glendower Capital ב-2021, וכיום היא מנהלת כ-20 מיליארד אירו באסטרטגיות secondaries של private equity ו-private credit.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הכפלת היקף הקרן הקודמת והשתתפות יותר מ-200 משקיעים ממחישות את התרחבות הביקוש המוסדי ל-secondaries.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/cvc-raises-record-10bn-for-latest-secondaries-fund/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>Apax Partners מגבשת חבילת חוב של 1 מיליארד אירו לרכישת יחידות מ-Gerresheimer</h2>
+    <p>Apax Partners מגבשת leveraged debt financing בהיקף של כ-1 מיליארד אירו לתמיכה ברכישת Primary Packaging Plastics (PPP) ו-Centor US Holding מ-Gerresheimer, לפי דיווח המבוסס על מקורות אנונימיים. החבילה צפויה לכלול leveraged loans, ובהם term debt ו-revolving credit facility; קבוצת המלווים צפויה להתגבש בקרוב, והחוב עשוי לעבור syndication למשקיעים מוסדיים בהמשך השנה. העסקה סוכמה ביולי, מחיר הרכישה לא פורסם, ולשני העסקים enterprise value משולב של 1.5 מיליארד אירו.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>היחס בין חבילת החוב ל-enterprise value המשולב הוא הנתון המרכזי למוסדיים לקראת ה-syndication.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/apax-lines-up-e1bn-debt-package-for-gerresheimer-unit-acquisition/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>חברת ה-bridging Pallas Capital השיגה קו אשראי של 200 מיליון ליש"ט</h2>
+    <p>מלווה ה-bridging הבריטית Pallas Capital השיגה מסגרת senior funding בהיקף 200 מיליון ליש"ט מקרן חוב אירופית, להרחבת ה-deployment ברחבי בריטניה. המסגרת תתמוך במימון מגורים, נכסים בשימוש מעורב ומסחר, וכן שיפוץ ופיתוח. החברה החלה לפעול במדינה בינואר 2026, מתמקדת בנדל"ן ב-middle market ומציעה הלוואות של 250 אלף עד 35 מיליון ליש"ט. הקבוצה שאליה היא משתייכת מנהלת תיק הלוואות של כ-2.5 מיליארד ליש"ט והשלימה יותר מ-1,300 עסקאות מאז 2016.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הפער בין מסגרת של 200 מיליון ליש"ט להלוואות של עד 35 מיליון מצביע על יכולת לממן עסקאות מרובות.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/09/02/bridging-lender-pallas-capital-secures-200m-credit-line/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>Fortress Investment Group השלימה CRE CLO בהיקף 900 מיליון דולר</h2>
+    <p>Fortress Investment Group השלימה CRE CLO בהיקף 900 מיליון דולר, שבסיס הנכסים הראשוני שלו כולל שש הלוואות מלאות ו-23 השתתפויות בהלוואות, המובטחות ב-33 נכסים ב-12 מדינות בארה״ב. רוב המאגר מורכב מאשראי לדיור רב-משפחתי, והיתרה מפוזרת בין קמעונאות, תעשייה ומלונאות. Fortress Investment Group העמידה במישרין את כל הלוואות הבסיס. העסקה נסגרה ב-28 באוגוסט 2026 וכוללת תקופת השקעה מחדש של 24 חודשים; המנהל דיווח על ביקוש לאורך מבנה ההון.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>תקופת ההשקעה מחדש בת 24 חודשים מרחיבה את יכולת ה-deployment באשראי נדל״ן מובטח.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/09/02/fortress-closes-900m-cre-clo/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>LACERA ממנה את Cheyne Capital Management לניהול mandate אשראי של 750 מיליון דולר</h2>
+    <p>LACERA אישרה השקעה של עד 750 מיליון דולר באסטרטגיית אשראי מרובת נכסים של Cheyne Capital Management, באמצעות managed account ייעודי. ההחלטה נחשפה בדוח מישיבת ועדת ההשקעות בחודש שעבר. קרן הפנסיה מנהלת 93.9 מיליארד דולר, ולתיק האשראי שלה target allocation של 13%, הכולל high-yield, הלוואות בנקאיות, חוב בשווקים מתעוררים ואשראי לא נזיל. Cheyne Capital Management מנהלת 15 מיליארד דולר ופועלת בנדל״ן, אשראי תאגידי, strategic value credit ו-equity alternatives.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ה-managed account הייעודי מצביע על דרישה מוסדית לשליטה במבנה של mandate אשראי בהיקף גדול.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/09/02/lacera-appoints-cheyne-capital-to-manage-750m-credit-mandate/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>Veritas Capital גוברת על CVC Advisers בעסקה לרכישת Bodycote ב-1.65 מיליארד ליש״ט</h2>
+    <p>Veritas Capital הסכימה לרכוש את Bodycote, מומחית הנדסה בריטית הנסחרת בבורסה, תמורת כ-1.65 מיליארד ליש״ט, לאחר שהעלתה את הצעתה ועקפה את CVC Advisers. העסקה המומלצת מציעה 940 פני במזומן לכל מניה, ועם החוב ה-enterprise value מגיע לכ-1.85 מיליארד ליש״ט. CVC Advisers עדיין בוחנת את אפשרויותיה וביקשה מבעלי המניות שלא לפעול; המניה עלתה עד 4.4% ונסחרה מעל מחיר ההצעה, על רקע ציפייה להצעה נוספת.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>המסחר מעל מחיר ההצעה משקף ציפייה להצעה מתחרה, אף שהעסקה המומלצת היא עם Veritas Capital.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/veritas-capital-outbids-cvc-in-1-65bn-bodycote-deal/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="M&A" data-pri="4">
+  <div class="story-body">
+    <span class="tag">M&A</span>
+    <h2>Flexstone Partners השלימה את רכישת Glouston Capital Partners</h2>
+    <p>Flexstone Partners השלימה את רכישת Glouston Capital Partners, המתמחה ב-secondaries של קרנות Private Equity בצפון אמריקה. העסקה מעלה את ה-AUM של הרוכשת ליותר מ-15 מיליארד דולר, באסטרטגיות השקעה ראשוניות, co-investment ו-secondaries. צוות Glouston Capital Partners יצטרף לפלטפורמה וימשיך לפעול מבוסטון ללא שינוי באסטרטגיה; הקרנות ימותגו מחדש תחת Flexstone Partners, אך מבני הקרנות, הסכמי ה-LP וה-mandates יישארו בתוקף. ששת השותפים יהפכו ל-Managing Partners, והפלטפורמה תמנה 37 אנשי מקצוע בחמש ערים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>שמירת המבנים וה-mandates מצמצמת חיכוך למשקיעים, בעוד ה-AUM המאוחד מרחיב את היקף פלטפורמת ה-secondaries.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/flexstone-completes-acquisition-of-glouston-capital-partners/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>Epiris הסכימה לרכוש את Gamma Communications בעסקה בשווי 1.08 מיליארד ליש״ט</h2>
+    <p>חברת ה-Private Equity הבריטית Epiris הסכימה לרכוש את ספקית שירותי התקשורת והטכנולוגיה Gamma Communications בעסקה המשקפת שווי של כ-1.08 מיליארד ליש״ט. לפי ההצעה המומלצת, בעלי המניות יקבלו 1,120 פני במזומן למניה, לפי שווי הון של כ-1.02 מיליארד ליש״ט ופרמיה של 53% למחיר הסגירה ב-7 באפריל, אז אושרו לראשונה השיחות. Oakley Capital ו-Providence Equity Partners נסוגו מהצעותיהן ביוני, ו-Waterland Private Equity Investments קיימה שיחות מקדמיות. השלמת העסקה כפופה לתנאים ולאישורים המקובלים.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הפרמיה של 53% והעניין מצד ארבע קרנות ממחישים תחרות משמעותית על נכסי תקשורת עסקית.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/epiris-agrees-1-08bn-gamma-communications-takeover/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>Blackstone תבצע rollover ל-stake ב-Cirsa במסגרת מיזוג עם Lottomatica, שייצור שחקנית גיימינג גלובלית</h2>
+    <p>Lottomatica צפויה לקלוט את Cirsa במיזוג all-share, שבו בעלי מניות Cirsa יקבלו 0.668 מניות חדשות של Lottomatica לכל מניה. Blackstone תבצע rollover להשקעתה ותהפוך לבעלת המניות היחידה הגדולה בקבוצה, עם כ-24% ושני מושבים בדירקטוריון, ללא מימון רכישה חדש. בעלי מניות Lottomatica יחזיקו 67.5% מהקבוצה ובעלי מניות Cirsa יחזיקו 32.5%. לפני ההשלמה תחלק Cirsa דיבידנד חריג של 262 מיליון אירו; הקבוצה צופה סינרגיות מזומן שנתיות לפני מס של 115 מיליון אירו עד השנה המלאה השלישית.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ה-rollover equity משאיר את Blackstone כבעלת עניין מרכזית בקבוצה ציבורית, עם stake מהותי וייצוג בדירקטוריון.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/blackstone-to-roll-cirsa-stake-into-lottomatica-merger-creating-global-gaming-player/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>NIIF השלימה first close של 2 מיליארד דולר לקרן התשתיות השנייה</h2>
+    <p>NIIF השלימה first close של כ-2 מיליארד דולר עבור NIIF Infrastructure Fund II, יותר מ-60% מה-target של 3.2 מיליארד דולר. בין המשקיעים הגלובליים והמקומיים נכללת CPP Investments, שדיווחה בנפרד על commitment של עד 215 מיליון דולר, לצד עיגון מצד Government of India. הקרן תמשיך להשקיע באנרגיה, תחבורה ותשתיות דיגיטליות, ותוסיף תשתיות עירוניות וניידות חשמלית. NIIF מתכננת לגייס לצדה כ-950 מיליון דולר ל-co-investment, שאינם נכללים בגודל הקרן.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>חציית 60% מה-target כבר ב-first close מספקת אינדיקציה לביקוש מוסדי לתשתיות הודיות מגוונות.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net</span>
+      <a href="https://hedgeco.net/news/09/2026/niif-hit-a-2-billion-first-close-on-infrastructure-fund-ii.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>Epiris הסכימה על הצעת מזומן מומלצת בסך 1.015 מיליארד ליש״ט ל-Gamma Communications</h2>
+    <p>Epiris ו-Gamma Communications הסכימו להצעת מזומן מומלצת של 1,120 פני למניה, המשקפת שווי הון של 1.015 מיליארד ליש״ט. Bradbury Bidco Limited, כלי ייעודי הנשלט בידי קרנות בניהול Epiris, ירכוש את מלוא המניות ב-scheme of arrangement באישור בית משפט. המחיר משקף פרמיה של 53%; השלמת ה-take-private צפויה במחצית הראשונה של 2027, בכפוף להצבעה ולאישורים. HarbourVest ו-Limewood Capital יצטרפו כ-co-investors, ו-Ares Funds תעמיד חוב ותחזיק interest מיעוט עקיף.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>פרמיה של 53% והשלמה רק ב-2027 מציבות את אישורי העסקה במרכז המעקב המוסדי.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net</span>
+      <a href="https://hedgeco.net/news/09/2026/epiris-agreed-a-recommended-1-015-billion-cash-offer-for-gamma-communications.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>Ares Management השלימה final close ל-Japan Logistics Development Partners V ב-hard cap של 612 מיליארד ין</h2>
+    <p>Ares Management השלימה final close ל-Japan Logistics Development Partners V ב-hard cap של 612 מיליארד ין, כ-4 מיליארד דולר, כולל הון LP ו-commitment של ה-GP. זהו גיוס הקרן המוסדית הסגורה הגדול בתולדות פעילות הנדל״ן שלה. משקיעת העוגן CPP Investments התחייבה ל-150 מיליארד ין. הקרן גדולה בכמעט 50% מ-JDP IV מ-vintage 2021, שגייסה 412 מיליארד ין, ובעלת יכולת השקעה כוללת של 1.7 טריליון ין. כבר בוצעו commitments לפרויקטים בהיקף 450 מיליארד ין לפיתוח נכסי לוגיסטיקה בטוקיו רבתי, אוסקה רבתי ונגויה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הפער בין 612 מיליארד ין בהון הקרן ל-1.7 טריליון ין ביכולת ההשקעה מחדד את רכיב ה-leverage.</span></div>
+    <div class="source">
+      <span class="meta">hedgeco.net</span>
+      <a href="https://hedgeco.net/news/09/2026/ares-closed-japan-logistics-development-partners-v-at-a-%c2%a5612-billion-hard-cap.html" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Fundraising" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Fundraising</span>
+    <h2>משקיעים אוסטרלים התחייבו ל-705 מיליון דולר אוסטרלי ל-direct lending באירופה</h2>
+    <p>Nuveen גייסה 705 מיליון דולר אוסטרלי (372.6 מיליון ליש״ט) מארבעה משקיעים מוסדיים אוסטרליים לטובת direct lending באירופה. Brighter Super, Jana Private Credit Trust ושני מוסדיים נוספים ביצעו commitment לתיק ייעודי בניהול Arcmont Asset Management, חברה מסונפת של Nuveen המנהלת 74 מיליארד דולר אוסטרלי של investable capital. האסטרטגיה תעניק גישה להלוואות senior-secured, להלוואות unitranche ולהלוואות subordinated בחברות אירופיות ב-mid-market וב-upper-mid-market, בדגש על ענפים לא־מחזוריים ו-defensive.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>מבנה התיק הייעודי ממחיש ביקוש מוסדי אוסטרלי לגישה רחבת היקף ל-private credit אירופי.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/09/01/australian-investors-commit-a705m-to-european-direct-lending/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>Brookfield Asset Management מבקשת למשוך 600 מיליון דולר מ-HomeServe באמצעות מימון מחדש מגובה נכסים</h2>
+    <p>Brookfield Asset Management בוחנת משיכת דיבידנד של 600 מיליון דולר מ-HomeServe באמצעות whole-business securitisation בהיקף 1.8 מיליארד דולר. HomeServe מנהלת שיחות ראשוניות עם מלווים, ו-Jefferies מובילה את המימון, שנועד גם למחזר חוב קיים. העסקה צפויה לכלול tranche ציבורי לחמש שנים ושני tranche-ים פרטיים לשבע ולעשר שנים, בתמחור מעל benchmark של אג״ח ממשלת ארה״ב. Brookfield Asset Management רכשה את HomeServe ב-2023; התנאים עדיין עשויים להשתנות.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>המבנה עשוי לאפשר ל-Brookfield Asset Management להחזיר הון מההשקעה בלי לבצע exit, תוך שעבוד תזרימי הפעילות.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/brookfield-targets-600m-dividend-from-homeserve-in-proposed-asset-backed-refinancing/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>KKR צפויה לרשום רווח של 3.3 מיליארד דולר ממכירת USI Insurance Services ל-Aon תמורת 17 מיליארד דולר</h2>
+    <p>KKR צפויה לרשום רווח של 3.3 מיליארד דולר ממכירת USI Insurance Services ל-Aon בעסקה של 17 מיליארד דולר, ולפי הדיווח כ-2 מיליארד דולר ברווח נקי מתואם. KKR השקיעה בחברה לראשונה ב-2017, לפי שווי של כ-4.3 מיליארד דולר, והוסיפה הון בשלוש השקעות נוספות. העסקה צפויה להניב 3.4x על ההון שהושקע ממאזנה באמצעות Strategic Holdings, פלטפורמה שהוקמה ב-2023 להחזקת נכסים מניבי מזומנים לזמן ארוך. הרכישה תחזק את פעילות Aon במגזר ה-middle market בארה״ב.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ה-exit ממחיש כיצד החזקה מאזנית ארוכת טווח יכולה לייצר מימוש משמעותי מחוץ למחזור חיי קרן רגיל.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/kkr-set-for-3-3bn-gain-from-17bn-usi-insurance-sale-to-aon/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>Brookfield Business Partners הסכימה להכפיף חוב של 675 מיליון דולר ב-CDK Global במסגרת הארכת מועדי פירעון</h2>
+    <p>Brookfield Business Partners הסכימה להכפיף כ-675 מיליון דולר מחובותיה ב-CDK Global במסגרת עסקת liability management להארכת מועדי הפירעון. החוב הקיים יוחלף בניירות ערך נחותים יותר, כשהריבית תשולם ב-PIK במקום במזומן. במקביל, נושי ועדת ההיגוי יחליפו חוב מובטח לפירעון ב-2029 בחוב חדש שמועדו מאוחר בכשנתיים וחצי ויונפק ב-discount של 8%. מנגנון נוסף עשוי להעניק ל-Brookfield Business Partners discount של עד 13% על עד 1.2 מיליארד דולר של רכישות חוב ב-secondary market.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>מבנה ה-PIK ומחיר של 52 סנט לדולר ממחישים את עומק לחצי הנזילות וה-refinancing ב-CDK Global.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/brookfield-agrees-to-subordinate-675m-cdk-debt-in-maturity-extension-deal/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="4">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>מוסדיים מחפשים מבנים חדשים עם התגברות הפדיונות בקרב משקיעי wealth</h2>
+    <p>גל המשיכות מכלי private credit, בעיקר מ-BDC לא סחירים, גורם למוסדיים לבחון השקעה לצד לקוחות פרטיים. לפי Bfinance, הביקוש נע לכלי evergreen מוסדיים עם מגבלות פדיון, לצמצום cash drag ותלות בתגובות משקיעי wealth. Stepstone הציגה hybrid evergreen שקורא להון בתקופה מוגדרת ואז מאפשר להישאר או לעבור ל-run-off. Bridgepoint הקימה בלוקסמבורג קרן direct lending נצחית, שאינה semi-liquid ואינה מציעה פדיונות; Nest מבצעת allocation ל-private credit רק דרך SMA.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>לחץ הפדיונות מצד משקיעי wealth מחזק העדפה מוסדית למבנים illiquid נשלטים יותר, במקום נזילות רבעונית משותפת.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/09/01/institutions-seek-new-structures-as-wealth-redemptions-mount/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>IFM Investors פותחת משרד בסינגפור במסגרת התרחבות ב-private credit באסיה</h2>
+    <p>IFM Investors פתחה משרד בסינגפור כדי להרחיב את פעילות ה-private credit שלה באסיה, בדגש על אשראי מגוון. החברה, המנהלת נכסים בהיקף 291.6 מיליארד דולר אוסטרלי, מתכננת לפרוס עד מחצית מקרן private credit של כ-1 מיליארד דולר בשווקים אסייתיים נוספים. בטווח הקרוב היא מכוונת ל-allocation של 25%–35% באסיה, ובהמשך לכמחצית מהפורטפוליו. המהלך מגיע לאחר commitment של 175 מיליון דולר אוסטרלי דרך Export Finance Australia לתמיכה בעסקים בדרום-מזרח אסיה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>יעד ה-allocation המדורג מראה שהמשרד נועד לתמוך ב-deployment ממשי של הקרן ברחבי אסיה.</span></div>
+    <div class="source">
+      <span class="meta">alternativecreditinvestor.com · Aysha Gilmore</span>
+      <a href="https://alternativecreditinvestor.com/2026/09/03/ifm-investors-opens-singapore-office-in-asia-credit-push/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>KKR הסכימה לרכוש את A1 Garage Door Service בכ-2 מיליארד דולר</h2>
+    <p>KKR הסכימה לרכוש את A1 Garage Door Service, ספקית אמריקאית לתיקון והחלפת דלתות מוסך למגורים, בעסקה המוערכת בכ-2 מיליארד דולר. החברה נוסדה ב-2007, מרכזה בפיניקס והיא פועלת בכ-20 מדינות; ב-2022 קיבלה growth capital מ-Cortec Group. הרכישה מוסיפה לפעילות KKR בשירותים לבית, לצד השקעות ב-Neighborly וב-Groundworks. הענף מושך sponsors בשל ביקוש חוזר, תזרימים עמידים ואפשרות לקונסולידציה בשוק מפוצל; הצדדים לא מסרו תגובה לדיווח.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>ריבוי השקעותיה של KKR בשירותים לבית מדגיש את מיקוד הקונסולידציה בענף אמריקאי מפוצל.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/kkr-to-acquire-a1-garage-door-service-for-around-2bn/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Credit" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Private Credit</span>
+    <h2>IFM Investors מכוונת עד מחצית מקרן private credit של 1 מיליארד דולר לאסיה</h2>
+    <p>IFM Investors מתכננת להפנות לאסיה עד מחצית מקרן private credit מסוג open-ended, בהיקף של כ-1 מיליארד דולר. הקרן מוטה כיום לאוסטרליה ולניו זילנד, ובטווח הקרוב מתוכננת allocation של 25%–35% לשווקים אחרים, בעיקר בדרום-מזרח ובדרום אסיה. המנהל, עם AUM של כ-205 מיליארד דולר, פתח השנה משרד בסינגפור וכבר השלים באזור שלוש השקעות בתשתיות דיגיטליות, סחורות חקלאיות ושירותים עסקיים. המנהל מייחס יתרון לבטוחות מוחשיות ול-underwriting מחמיר.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>הרחבת ה-allocation מעבר לאוסטרליה מבליטה את חשיבות הבטוחות ומשמעת ה-underwriting בשווקים שבהם הגנת המלווים פחות מפותחת.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/ifm-investors-targets-asia-for-up-to-half-of-1bn-private-credit-fund/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+<article class="story" data-cat="Private Equity" data-pri="3">
+  <div class="story-body">
+    <span class="tag">Private Equity</span>
+    <h2>Carlyle, Bain Capital ו-Oaktree נערכות להגיש הצעות לרכישת אחזקת מיעוט בעסקי המדיה הבינלאומיים של Serie A</h2>
+    <p>Carlyle, Bain Capital ו-Oaktree נערכות להגיש הצעות לרכישת stake של 10%–20% בחברה המחזיקה בזכויות המדיה הבינלאומיות של Serie A; ההצעות המחייבות צפויות עד 4 בספטמבר. גם Nextalia צפויה להשתתף במכרז. הפעילות כוללת זכויות שידור מחוץ לאיטליה וכן הימורים וחסויות, מייצרת כ-200 מיליון אירו ברווחי ליבה, ומוערכת לפי שווי פעילות של 3–4 מיליארד אירו. JP Morgan פנתה למשקיעי Private Equity מוקדם יותר השנה, וכל השקעה תדרוש תמיכה של לפחות 14 מתוך 20 מועדוני הליגה.</p>
+    <div class="takeaway"><b>השורה התחתונה</b><span>רף האישור של 14 מועדונים הוא הנתון המכריע, לנוכח כישלון הניסיון הקודם להשיג הסכמה.</span></div>
+    <div class="source">
+      <span class="meta">privateequitywire.co.uk · Jack Arrowsmith</span>
+      <a href="https://www.privateequitywire.co.uk/carlyle-bain-and-oaktree-line-up-bids-for-serie-a-international-media-business/" target="_blank" rel="noopener">לכתבה המלאה</a>
+    </div>
+  </div>
+</article>
+
+  </main>
+
+  <div class="closer">
+    <img src="../assets/img-5.jpg" alt="שני אנשים משוחחים בפגישה">
+    <div class="veil">
+      <div class="line">
+        <span class="a">Aspire.</span>
+        <span class="b">Level up.</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="signoff pad">
+    <p>
+      "מבט אלטרנטיבי" הוא סקירה שבועית של Aspire Investments, המלקטת את הכתבות המשמעותיות
+      בשוק ההשקעות האלטרנטיבי ומתמצתת אותן לקריאה של בערך כ-5 דקות.
+    </p>
+  </section>
+
+  <div class="footer pad">
+    <div class="footer-row">
+      <a href="https://aspire-invest.com/" target="_blank" rel="noopener">aspire-invest.com</a>
+      <span class="sep">|</span>
+      <span>Aspire Investments</span>
+      <span class="sep">|</span>
+      <span>150 Menakhem Begin, Tel Aviv-Yafo, Israel</span>
+    </div>
+  </div>
+
+  <div class="legal pad">
+    האמור בסקירה זו הוא מידע כללי בלבד, המבוסס על פרסומים גלויים לציבור, ואינו מהווה ייעוץ
+    השקעות, שיווק השקעות או תחליף לייעוץ אישי המתחשב בנתוניו ובצרכיו של כל אדם. אין באמור
+    משום הצעה לרכישת ניירות ערך או יחידות בקרנות. Aspire Investments אינה אחראית לדיוק המידע
+    במקורות החיצוניים המצוטטים.
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var main = document.querySelector('.stories');
+  var nav  = document.querySelector('.filters');
+  if (!main || !nav) return;
+
+  var CAP_CAT = 3;          /* most stories from any one category */
+  var CAP_SRC = 3;          /* most stories from any one website  */
+  var MIN = 8, MAX = 12;    /* an issue runs between these two    */
+
+  function rank(c) { return parseInt(c.getAttribute('data-pri'), 10) || 0; }
+  function site(c) {
+    var a = c.querySelector('.source a');
+    if (!a) return '';
+    var m = String(a.getAttribute('href')).match(/^https?:\/\/([^\/?#]+)/i);
+    return m ? m[1].toLowerCase().replace(/^www\./, '') : '';
+  }
+
+  /* Make sends more candidates than an issue needs, strongest first. Walk them in order and
+     keep a story only while its category and its website both still have room, so neither one
+     busy sector nor one prolific publisher can take over the issue. */
+  var all = Array.prototype.slice.call(main.querySelectorAll('.story'))
+    .filter(function (c) { return (c.getAttribute('data-cat') || '').trim() !== ''; });
+  if (!all.length) return;
+
+  var cards = [], spare = [], byCat = Object.create(null), bySrc = Object.create(null);
+  all.forEach(function (c) {
+    var k = c.getAttribute('data-cat'), s = site(c);
+    if (cards.length < MAX && (byCat[k] || 0) < CAP_CAT && (bySrc[s] || 0) < CAP_SRC) {
+      byCat[k] = (byCat[k] || 0) + 1;
+      bySrc[s] = (bySrc[s] || 0) + 1;
+      cards.push(c);
+    } else { spare.push(c); }
+  });
+
+  /* A sector that had candidates should never be missing from the issue altogether. Cover the
+     gap even if it costs one extra story from a website already at its cap — a whole absent
+     category is far more visible to the reader than a fourth story from one publisher. */
+  var present = Object.create(null);
+  all.forEach(function (c) { present[c.getAttribute('data-cat')] = true; });
+  Object.keys(present).forEach(function (k) {
+    if (byCat[k] || cards.length >= MAX) return;
+    for (var n = 0; n < spare.length; n++) {
+      if (spare[n].getAttribute('data-cat') === k) {
+        byCat[k] = 1;
+        cards.push(spare.splice(n, 1)[0]);
+        return;
+      }
+    }
+  });
+
+  /* Top up only as far as the minimum. Above it a shorter issue beats a lopsided one, which
+     is why the caps are allowed to end the issue at 9 or 10 rather than forcing 12. When we
+     do have to reach, take from whichever category is thinnest; spare is still in rank order,
+     so ties go to the strongest story. */
+  while (cards.length < MIN && spare.length) {
+    var best = 0;
+    for (var j = 1; j < spare.length; j++) {
+      if ((byCat[spare[j].getAttribute('data-cat')] || 0) <
+          (byCat[spare[best].getAttribute('data-cat')] || 0)) { best = j; }
+    }
+    var pick = spare.splice(best, 1)[0], pk = pick.getAttribute('data-cat');
+    byCat[pk] = (byCat[pk] || 0) + 1;
+    cards.push(pick);
+  }
+
+  spare.forEach(function (c) { if (c.parentNode) c.parentNode.removeChild(c); });
+  cards.sort(function (a, b) { return rank(b) - rank(a); });
+  cards.forEach(function (c) { main.appendChild(c); });
+  if (cards.length < 3) return;
+
+  /* categories, in the order they first appear in the issue */
+  var order = [], counts = Object.create(null);
+  cards.forEach(function (c) {
+    var k = (c.getAttribute('data-cat') || '').trim();
+    if (!k) return;
+    if (counts[k] === undefined) { counts[k] = 0; order.push(k); }
+    counts[k] += 1;
+  });
+  if (order.length < 2) return;
+
+  main.classList.add('js');
+  var pics = ['pic-a', 'pic-b', 'pic-c', 'pic-d', 'pic-e'];
+
+  /* re-apply the lead / tinted / photo rhythm to whatever is currently visible */
+  function paint() {
+    var seen = 0;
+    cards.forEach(function (c) {
+      if (c.hidden) { c.className = 'story'; return; }
+      var cls = 'story';
+      if (seen === 0) {
+        cls += ' lead';
+      } else if (seen >= 2 && seen % 2 === 0) {
+        cls += ' alt ' + pics[((seen - 2) / 2) % 5];
+      }
+      c.className = cls;
+      seen += 1;
+    });
+  }
+
+  function select(cat) {
+    cards.forEach(function (c) {
+      c.hidden = (cat !== '*' && c.getAttribute('data-cat') !== cat);
+    });
+    Array.prototype.forEach.call(nav.children, function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-cat') === cat ? 'true' : 'false');
+    });
+    paint();
+  }
+
+  function addButton(cat, label, n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('data-cat', cat);
+    b.setAttribute('aria-pressed', 'false');
+    var s = document.createElement('span');
+    s.textContent = label;
+    var i = document.createElement('i');
+    i.textContent = n;
+    b.appendChild(s);
+    b.appendChild(i);
+    b.addEventListener('click', function () { select(cat); });
+    nav.appendChild(b);
+  }
+
+  addButton('*', 'הכל', cards.length);
+  order.forEach(function (k) { addButton(k, k, counts[k]); });
+  select('*');
+}());
+</script>
+
+</body>
+</html>
+
