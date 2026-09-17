@@ -68,6 +68,24 @@
 
   .empty{ text-align:center; padding:40px 20px; color:var(--ink-3); font-size:.9rem; }
 
+  .refresh-btn{
+    font-size:1.1rem; line-height:1; color:var(--brand-ink); background:var(--surface);
+    border:1.5px solid var(--rule); border-radius:8px; width:36px; height:36px;
+    cursor:pointer; flex-shrink:0; transition:.15s ease;
+  }
+  .refresh-btn:hover{ border-color:var(--brand-ink); }
+  .refresh-btn.spinning{ animation:spin .7s linear infinite; }
+  @keyframes spin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+
+  .loading{ text-align:center; padding:40px 20px; color:var(--ink-3); font-size:.9rem; }
+  .error{ text-align:center; padding:30px 20px; color:var(--danger); font-size:.9rem;
+          background:var(--danger-wash); border-radius:12px; }
+  .error button{
+    margin-inline-start:8px; font-family:var(--font-he); font-size:.85rem; font-weight:600;
+    color:var(--danger); background:var(--surface); border:1.5px solid var(--danger);
+    border-radius:7px; padding:5px 12px; cursor:pointer;
+  }
+
   .overlay{
     position:fixed; inset:0; background:rgba(31,34,51,.45);
     display:none; align-items:center; justify-content:center; padding:20px; z-index:10;
@@ -116,10 +134,14 @@
 
   <div class="toolbar">
     <input type="text" id="searchBox" placeholder="חיפוש לפי שם או מייל…">
+    <button type="button" id="refreshBtn" class="refresh-btn" title="רענון">↻</button>
     <span class="count" id="countLabel"></span>
   </div>
 
-  <table>
+  <div class="loading" id="loadingState">טוען רשימה עדכנית…</div>
+  <div class="error" id="errorState" hidden>שגיאה בטעינת הרשימה. <button type="button" id="retryBtn">נסה שוב</button></div>
+
+  <table id="subTable" hidden>
     <thead>
       <tr>
         <th>שם</th>
@@ -148,24 +170,20 @@
 
 <script>
 (function(){
-  var WEBHOOK_URL = "https://hook.eu1.make.com/xbr46r1zfufhqldw7mwkpq79qtnkf7b7";
+  var DELETE_WEBHOOK_URL = "https://hook.eu1.make.com/xbr46r1zfufhqldw7mwkpq79qtnkf7b7";
+  var LIST_WEBHOOK_URL = "https://hook.eu1.make.com/ewxrgs1jhd926luwhpwm5lk7asx7rn5n";
 
-  // Snapshot of subscribers at the time this page was last published.
-  // Ask Claude to refresh this list and republish when it goes stale.
-  var subscribers = [
-    {name:"Gilad", email:"giladz@aspire-invest.com", date:"2026-09-17"},
-    {name:"Gilad Salz", email:"salzgilad@gmail.com", date:"2026-09-17"},
-    {name:"Dor Roth", email:"dor.m.roth@gmail.com", date:"2026-09-17"},
-    {name:"Elad", email:"elads@aspire-invest.com", date:"2026-09-17"},
-    {name:"Idan yamin", email:"idan0542@gmail.com", date:"2026-09-17"},
-    {name:"Hanna Hollander", email:"hanahollander@gmail.com", date:"2026-09-17"},
-    {name:"elad shafransky", email:"eladshafransky@gmail.com", date:"2026-09-17"}
-  ];
+  var subscribers = [];
 
   var tbody = document.getElementById('tableBody');
   var emptyState = document.getElementById('emptyState');
+  var loadingState = document.getElementById('loadingState');
+  var errorState = document.getElementById('errorState');
+  var subTable = document.getElementById('subTable');
   var searchBox = document.getElementById('searchBox');
   var countLabel = document.getElementById('countLabel');
+  var refreshBtn = document.getElementById('refreshBtn');
+  var retryBtn = document.getElementById('retryBtn');
   var overlay = document.getElementById('confirmOverlay');
   var confirmName = document.getElementById('confirmName');
   var confirmEmail = document.getElementById('confirmEmail');
@@ -173,6 +191,35 @@
   var cancelBtn = document.getElementById('cancelBtn');
   var toast = document.getElementById('toast');
   var pendingRow = null;
+
+  function loadSubscribers(){
+    loadingState.hidden = false;
+    errorState.hidden = true;
+    subTable.hidden = true;
+    emptyState.hidden = true;
+    refreshBtn.classList.add('spinning');
+
+    fetch(LIST_WEBHOOK_URL, {method:'GET', cache:'no-store'})
+      .then(function(res){
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(data){
+        subscribers = (data && data.subscribers) || [];
+        loadingState.hidden = true;
+        subTable.hidden = false;
+        refreshBtn.classList.remove('spinning');
+        render();
+      })
+      .catch(function(){
+        loadingState.hidden = true;
+        errorState.hidden = false;
+        refreshBtn.classList.remove('spinning');
+      });
+  }
+
+  refreshBtn.addEventListener('click', loadSubscribers);
+  retryBtn.addEventListener('click', loadSubscribers);
 
   function formatDate(iso){
     try {
@@ -252,7 +299,7 @@
     confirmBtn.disabled = true;
     confirmBtn.textContent = 'מוחק…';
 
-    var url = WEBHOOK_URL + '?email=' + encodeURIComponent(sub.email);
+    var url = DELETE_WEBHOOK_URL + '?email=' + encodeURIComponent(sub.email);
     fetch(url, {method:'GET', mode:'no-cors'})
       .then(function(){ onDeleted(sub); })
       .catch(function(){ onDeleted(sub); });
@@ -267,7 +314,7 @@
 
   searchBox.addEventListener('input', render);
 
-  render();
+  loadSubscribers();
 }());
 </script>
 
