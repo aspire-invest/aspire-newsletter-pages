@@ -1,0 +1,275 @@
+<!doctype html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>ניהול מנויים · Aspire Investments</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap">
+<style>
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --brand:#72BCFF; --brand-ink:#1668B8;
+    --navy:#1F2233; --green:#AEFAA4;
+    --bg:#F4F7FB; --surface:#FFFFFF;
+    --ink:#1F2233; --ink-2:#565C70; --ink-3:#868DA0; --rule:#DCE4EF;
+    --card-edge:#CBD8E8;
+    --danger:#C0392B; --danger-wash:#FBEAEA;
+    --font-he:"Assistant","Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  html,body{ height:100%; }
+  body{
+    background:var(--bg); color:var(--ink); font-family:var(--font-he);
+    padding-inline:20px; padding-block:32px;
+  }
+  .wrap{ max-width:760px; margin:0 auto; }
+
+  header{ margin-bottom:24px; }
+  header .kicker{
+    font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--brand-ink);
+  }
+  h1{ font-size:1.6rem; font-weight:800; margin-top:6px; color:var(--navy); }
+  header p{ margin-top:6px; color:var(--ink-2); font-size:.9rem; }
+
+  .toolbar{
+    display:flex; gap:10px; align-items:center; margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .toolbar input[type="text"]{
+    flex:1; min-width:180px; font-family:var(--font-he); font-size:.92rem;
+    padding:9px 12px; border:1.5px solid var(--rule); border-radius:8px; background:var(--surface);
+  }
+  .count{ font-size:.85rem; color:var(--ink-3); white-space:nowrap; }
+
+  table{ width:100%; border-collapse:collapse; background:var(--surface);
+         border:1.5px solid var(--card-edge); border-radius:12px; overflow:hidden; }
+  thead th{
+    text-align:right; font-size:.78rem; font-weight:700; color:var(--ink-2);
+    background:var(--bg); padding:11px 14px; border-bottom:1.5px solid var(--rule);
+  }
+  tbody td{
+    padding:12px 14px; font-size:.9rem; border-bottom:1px solid var(--rule); vertical-align:middle;
+  }
+  tbody tr:last-child td{ border-bottom:none; }
+  .email-cell{ direction:ltr; text-align:right; color:var(--ink-2); font-size:.85rem; }
+  .date-cell{ color:var(--ink-3); font-size:.82rem; white-space:nowrap; direction:ltr; text-align:right; }
+  .name-cell{ font-weight:600; }
+
+  .del-btn{
+    font-family:var(--font-he); font-size:.82rem; font-weight:600; color:var(--danger);
+    background:var(--danger-wash); border:1.5px solid transparent; border-radius:7px;
+    padding:6px 12px; cursor:pointer; transition:.12s ease;
+  }
+  .del-btn:hover{ border-color:var(--danger); }
+  .del-btn:disabled{ opacity:.5; cursor:default; }
+
+  .empty{ text-align:center; padding:40px 20px; color:var(--ink-3); font-size:.9rem; }
+
+  .overlay{
+    position:fixed; inset:0; background:rgba(31,34,51,.45);
+    display:none; align-items:center; justify-content:center; padding:20px; z-index:10;
+  }
+  .overlay.show{ display:flex; }
+  .confirm-card{
+    background:var(--surface); border-radius:14px; padding:26px 28px; max-width:380px; width:100%;
+    box-shadow:0 12px 32px rgba(0,0,0,.2);
+  }
+  .confirm-card h2{ font-size:1.05rem; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .confirm-card p{ font-size:.88rem; color:var(--ink-2); line-height:1.6; margin-bottom:18px; }
+  .confirm-card p b{ color:var(--ink); }
+  .confirm-actions{ display:flex; gap:10px; }
+  .confirm-actions button{
+    flex:1; font-family:var(--font-he); font-size:.9rem; font-weight:700;
+    padding:10px; border-radius:8px; border:none; cursor:pointer;
+  }
+  .btn-cancel{ background:var(--bg); color:var(--ink-2); }
+  .btn-confirm{ background:var(--danger); color:#fff; }
+  .btn-confirm:disabled{ opacity:.6; cursor:default; }
+
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    background:var(--navy); color:#E9EDF5; padding:12px 20px; border-radius:8px;
+    font-size:.85rem; opacity:0; pointer-events:none; transition:.2s ease;
+  }
+  .toast.show{ opacity:1; }
+
+  @media (max-width:560px){
+    thead{ display:none; }
+    table, tbody, tr, td{ display:block; width:100%; }
+    tbody tr{ border-bottom:1.5px solid var(--rule); padding:12px 14px; }
+    tbody td{ border:none; padding:3px 0; }
+    .del-btn{ margin-top:8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">מבט אלטרנטיבי</div>
+    <h1>ניהול רשימת מנויים</h1>
+    <p>מחיקת מנוי כאן מסירה אותו מ-Brevo, מה-Data Store ומ-Google Sheet בבת אחת.</p>
+  </header>
+
+  <div class="toolbar">
+    <input type="text" id="searchBox" placeholder="חיפוש לפי שם או מייל…">
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>שם</th>
+        <th>מייל</th>
+        <th>תאריך הרשמה</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  <div class="empty" id="emptyState" hidden>אין מנויים תואמים לחיפוש</div>
+</div>
+
+<div class="overlay" id="confirmOverlay">
+  <div class="confirm-card">
+    <h2>למחוק את המנוי?</h2>
+    <p>הפעולה תסיר את <b id="confirmName"></b> (<span id="confirmEmail" style="direction:ltr"></span>) לצמיתות מ-Brevo, מה-Data Store ומ-Google Sheet. אי אפשר לבטל.</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" id="cancelBtn">ביטול</button>
+      <button class="btn-confirm" id="confirmBtn">כן, מחק</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var WEBHOOK_URL = "https://hook.eu1.make.com/xbr46r1zfufhqldw7mwkpq79qtnkf7b7";
+
+  // Snapshot of subscribers at the time this page was last published.
+  // Ask Claude to refresh this list and republish when it goes stale.
+  var subscribers = [
+    {name:"Gilad", email:"giladz@aspire-invest.com", date:"2026-09-17"},
+    {name:"Gilad Salz", email:"salzgilad@gmail.com", date:"2026-09-17"},
+    {name:"Dor Roth", email:"dor.m.roth@gmail.com", date:"2026-09-17"},
+    {name:"Elad", email:"elads@aspire-invest.com", date:"2026-09-17"},
+    {name:"Idan yamin", email:"idan0542@gmail.com", date:"2026-09-17"},
+    {name:"Hanna Hollander", email:"hanahollander@gmail.com", date:"2026-09-17"},
+    {name:"elad shafransky", email:"eladshafransky@gmail.com", date:"2026-09-17"}
+  ];
+
+  var tbody = document.getElementById('tableBody');
+  var emptyState = document.getElementById('emptyState');
+  var searchBox = document.getElementById('searchBox');
+  var countLabel = document.getElementById('countLabel');
+  var overlay = document.getElementById('confirmOverlay');
+  var confirmName = document.getElementById('confirmName');
+  var confirmEmail = document.getElementById('confirmEmail');
+  var confirmBtn = document.getElementById('confirmBtn');
+  var cancelBtn = document.getElementById('cancelBtn');
+  var toast = document.getElementById('toast');
+  var pendingRow = null;
+
+  function formatDate(iso){
+    try {
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return iso;
+      return d.toLocaleDateString('he-IL', {day:'2-digit', month:'2-digit', year:'numeric'});
+    } catch(e){ return iso; }
+  }
+
+  function render(){
+    var q = searchBox.value.trim().toLowerCase();
+    var filtered = subscribers.filter(function(s){
+      return !q || s.name.toLowerCase().indexOf(q) > -1 || s.email.toLowerCase().indexOf(q) > -1;
+    });
+
+    countLabel.textContent = filtered.length + ' מתוך ' + subscribers.length + ' מנויים';
+    tbody.innerHTML = '';
+    emptyState.hidden = filtered.length > 0;
+
+    filtered.forEach(function(s){
+      var tr = document.createElement('tr');
+
+      var tdName = document.createElement('td');
+      tdName.className = 'name-cell';
+      tdName.textContent = s.name || '—';
+      tr.appendChild(tdName);
+
+      var tdEmail = document.createElement('td');
+      tdEmail.className = 'email-cell';
+      tdEmail.textContent = s.email;
+      tr.appendChild(tdEmail);
+
+      var tdDate = document.createElement('td');
+      tdDate.className = 'date-cell';
+      tdDate.textContent = formatDate(s.date);
+      tr.appendChild(tdDate);
+
+      var tdAction = document.createElement('td');
+      var btn = document.createElement('button');
+      btn.className = 'del-btn';
+      btn.type = 'button';
+      btn.textContent = 'מחק';
+      btn.addEventListener('click', function(){ openConfirm(s, tr); });
+      tdAction.appendChild(btn);
+      tr.appendChild(tdAction);
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function openConfirm(sub, row){
+    pendingRow = {sub: sub, row: row};
+    confirmName.textContent = sub.name || sub.email;
+    confirmEmail.textContent = sub.email;
+    confirmBtn.disabled = false;
+    confirmBtn.textContent = 'כן, מחק';
+    overlay.classList.add('show');
+  }
+
+  function closeConfirm(){
+    overlay.classList.remove('show');
+    pendingRow = null;
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 3200);
+  }
+
+  cancelBtn.addEventListener('click', closeConfirm);
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) closeConfirm(); });
+
+  confirmBtn.addEventListener('click', function(){
+    if (!pendingRow) return;
+    var sub = pendingRow.sub;
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'מוחק…';
+
+    var url = WEBHOOK_URL + '?email=' + encodeURIComponent(sub.email);
+    fetch(url, {method:'GET', mode:'no-cors'})
+      .then(function(){ onDeleted(sub); })
+      .catch(function(){ onDeleted(sub); });
+  });
+
+  function onDeleted(sub){
+    subscribers = subscribers.filter(function(s){ return s.email !== sub.email; });
+    closeConfirm();
+    showToast('נמחק בהצלחה: ' + sub.email);
+    render();
+  }
+
+  searchBox.addEventListener('input', render);
+
+  render();
+}());
+</script>
+
+</body>
+</html>
