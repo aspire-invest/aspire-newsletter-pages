@@ -50,6 +50,9 @@
     text-align:right; font-size:.78rem; font-weight:700; color:var(--ink-2);
     background:var(--bg); padding:11px 14px; border-bottom:1.5px solid var(--rule);
   }
+  thead th.sortable{ cursor:pointer; user-select:none; white-space:nowrap; }
+  thead th.sortable:hover{ color:var(--brand-ink); }
+  .sort-arrow{ display:inline-block; width:1em; margin-inline-start:4px; color:var(--brand-ink); font-size:.8em; }
   tbody td{
     padding:12px 14px; font-size:.9rem; border-bottom:1px solid var(--rule); vertical-align:middle;
   }
@@ -144,9 +147,9 @@
   <table id="subTable" hidden>
     <thead>
       <tr>
-        <th>שם</th>
-        <th>מייל</th>
-        <th>תאריך הרשמה</th>
+        <th class="sortable" data-sort="name">שם<span class="sort-arrow"></span></th>
+        <th class="sortable" data-sort="email">מייל<span class="sort-arrow"></span></th>
+        <th class="sortable" data-sort="date">תאריך הרשמה<span class="sort-arrow"></span></th>
         <th></th>
       </tr>
     </thead>
@@ -174,6 +177,8 @@
   var LIST_WEBHOOK_URL = "https://hook.eu1.make.com/ewxrgs1jhd926luwhpwm5lk7asx7rn5n";
 
   var subscribers = [];
+  var sortKey = 'date';
+  var sortDir = 'desc';
 
   var tbody = document.getElementById('tableBody');
   var emptyState = document.getElementById('emptyState');
@@ -229,11 +234,41 @@
     } catch(e){ return iso; }
   }
 
+  function compareBy(key, dir){
+    var mult = dir === 'asc' ? 1 : -1;
+    return function(a, b){
+      var av, bv;
+      if (key === 'date'){
+        av = new Date(a.date).getTime(); if (isNaN(av)) av = 0;
+        bv = new Date(b.date).getTime(); if (isNaN(bv)) bv = 0;
+      } else {
+        av = (a[key] || '').toLowerCase();
+        bv = (b[key] || '').toLowerCase();
+      }
+      if (av < bv) return -1 * mult;
+      if (av > bv) return 1 * mult;
+      return 0;
+    };
+  }
+
+  function updateSortArrows(){
+    document.querySelectorAll('th.sortable').forEach(function(th){
+      var arrow = th.querySelector('.sort-arrow');
+      if (th.dataset.sort === sortKey){
+        arrow.textContent = sortDir === 'asc' ? '▲' : '▼';
+      } else {
+        arrow.textContent = '';
+      }
+    });
+  }
+
   function render(){
     var q = searchBox.value.trim().toLowerCase();
     var filtered = subscribers.filter(function(s){
       return !q || s.name.toLowerCase().indexOf(q) > -1 || s.email.toLowerCase().indexOf(q) > -1;
     });
+    filtered.sort(compareBy(sortKey, sortDir));
+    updateSortArrows();
 
     countLabel.textContent = filtered.length + ' מתוך ' + subscribers.length + ' מנויים';
     tbody.innerHTML = '';
@@ -313,6 +348,19 @@
   }
 
   searchBox.addEventListener('input', render);
+
+  document.querySelectorAll('th.sortable').forEach(function(th){
+    th.addEventListener('click', function(){
+      var key = th.dataset.sort;
+      if (sortKey === key){
+        sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+      } else {
+        sortKey = key;
+        sortDir = 'asc';
+      }
+      render();
+    });
+  });
 
   loadSubscribers();
 }());
